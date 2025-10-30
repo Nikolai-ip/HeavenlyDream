@@ -7,6 +7,11 @@ namespace _Game.Source.Domain.Plane
     {
         public List<PlaneComponent> PlaneComponents { get; }
 
+        public PlaneComponentContainer()
+        {
+            PlaneComponents = new();
+        }
+
         public PlaneComponentContainer(List<PlaneComponent> planeComponents)
         {
             PlaneComponents = planeComponents;

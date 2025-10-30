@@ -8,11 +8,11 @@ namespace Plugins.Pool
     {
         [SerializeField] private PoolConfig _config;
 
-        public IPool<T> GetPoolContainer<T>(Transform container) where T:MonoBehaviour
+        public IInitablePool<T> GetPoolContainer<T>(Transform container, IObjectInstantiator instantiator) where T:MonoBehaviour
         {
             Type type = _config.Prefab.GetType(); 
             var poolContainerType = typeof(PoolContainer<>).MakeGenericType(type);
-            var poolContainer = (IPool<T>) Activator.CreateInstance(poolContainerType, _config, container);
+            var poolContainer = (IInitablePool<T>) Activator.CreateInstance(poolContainerType, _config, container, instantiator);
             return poolContainer;
         }
     }

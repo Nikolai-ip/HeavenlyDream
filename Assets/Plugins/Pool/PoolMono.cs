@@ -10,19 +10,22 @@ namespace Plugins.Pool
         private readonly T _prefab;
         private readonly bool _autoExpand;
         private readonly Transform _container;
+        private readonly IObjectInstantiator _instantiator;
         
-        public PoolMono(T prefab, int poolCapacity)
+        public PoolMono(T prefab, int poolCapacity, IObjectInstantiator instantiator)
         {
             _prefab = prefab;
+            _instantiator = instantiator;
             _container = null;
             CreatePool(poolCapacity);
         }
         
-        public PoolMono(T prefab, int poolCapacity, Transform container, bool autoExpand)
+        public PoolMono(T prefab, int poolCapacity, Transform container, bool autoExpand, IObjectInstantiator instantiator)
         {
             _prefab = prefab;
             _container = container;
             _autoExpand = autoExpand;
+            _instantiator = instantiator;
             CreatePool(poolCapacity);
         }
         
@@ -37,7 +40,7 @@ namespace Plugins.Pool
         
         private T CreateObject(bool isActiveByDefault = false)
         {
-            var instance = Object.Instantiate(_prefab, _container);
+            var instance = _instantiator.Instantiate(_prefab, _container);
             instance.gameObject.SetActive(isActiveByDefault);
             return instance;
         }

@@ -45,7 +45,7 @@ namespace Project.Tests
             var validator = new Validator(predicates);
 
             // Act
-            var result = validator.IsValid();
+            var result = validator.IsValid(out var predicate);
 
             // Assert
             Assert.IsTrue(result, "Все предикаты истинны — результат должен быть true");
@@ -64,7 +64,7 @@ namespace Project.Tests
             var validator = new Validator(predicates);
 
             // Act
-            var result = validator.IsValid();
+            var result = validator.IsValid(out var predicate);
 
             // Assert
             Assert.IsTrue(result, "Хотя бы один предикат истинный — результат должен быть true");
@@ -83,7 +83,7 @@ namespace Project.Tests
             var validator = new Validator(predicates);
 
             // Act
-            var result = validator.IsValid();
+            var result = validator.IsValid(out var predicate);
 
             // Assert
             Assert.IsFalse(result, "Все предикаты ложные — результат должен быть false");
@@ -102,7 +102,7 @@ namespace Project.Tests
             var validator = new Validator(predicates);
 
             // Act
-            var result = validator.IsValid();
+            var result = validator.IsValid(out var predicate);
 
             // Assert
             Assert.IsFalse(result, "Ни один предикат не истинен — результат должен быть false");
@@ -116,7 +116,7 @@ namespace Project.Tests
             var validator = new Validator(new List<PredicateWithOperator>());
 
             // Act
-            var result = validator.IsValid();
+            var result = validator.IsValid(out var predicate);
 
             // Assert
             Assert.IsTrue(result, "Пустой список предикатов должен считаться валидным");
@@ -143,8 +143,8 @@ namespace Project.Tests
             var v2 = new Validator(list2);
 
             // Act
-            var result1 = v1.IsValid();
-            var result2 = v2.IsValid();
+            var result1 = v1.IsValid(out var failerPredicate);
+            var result2 = v2.IsValid(out var failerPredicate2);
 
             // Assert
             Assert.AreEqual(result1, result2, "Результат не должен зависеть от порядка предикатов");

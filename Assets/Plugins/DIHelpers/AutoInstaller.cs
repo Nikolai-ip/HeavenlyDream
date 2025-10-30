@@ -7,8 +7,8 @@ namespace Plugins.DIHelpers
     {
         public override void InstallBindings()
         {
-            var installers = GetComponentsInChildren<AutoInstaller>().ToList();
-            installers.ForEach(installer=>installer.InstallBindings());
+            var installers = GetComponentsInChildren<SubInstaller>().ToList();
+            installers.ForEach(installer=>installer.InstallBindings(Container));
         }
         
     }

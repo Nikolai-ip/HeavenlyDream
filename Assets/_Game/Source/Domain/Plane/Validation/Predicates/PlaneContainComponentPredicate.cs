@@ -7,7 +7,7 @@ namespace _Game.Source.Domain.Plane.Validation.Predicates
     public class PlaneContainComponentPredicate<TPlaneComponent>: IPredicate where TPlaneComponent: PlaneComponent
     {
 		private readonly PlaneComponentContainer _plane;
-
+		
 		public PlaneContainComponentPredicate(PlaneComponentContainer plane)
 		{
 			_plane = plane;

@@ -12,10 +12,12 @@ namespace _Game.Source.Common.Validation
             _predicates = predicates;
         }
 
-        public bool IsValid()
+        public virtual bool IsValid(out IPredicate failerPredicate)
         {
+            bool result;
+            failerPredicate = null;
             if (_predicates.Count == 0) return true;
-            bool result = _predicates.Any(predicate=>predicate.OperatorType == BoolOperatorType.And);
+            result = _predicates.Any(predicate=>predicate.OperatorType == BoolOperatorType.And);
             for (var i = 0; i < _predicates.Count; i++)
             {
                 switch (_predicates[i].OperatorType)
@@ -24,6 +26,11 @@ namespace _Game.Source.Common.Validation
                         break;
                     case BoolOperatorType.Or: result = result || _predicates[i].Predicate.Evaluate();
                         break;
+                }
+
+                if (result == false && failerPredicate == null)
+                {
+                    failerPredicate = _predicates[i].Predicate;
                 }
             }
             return result;
