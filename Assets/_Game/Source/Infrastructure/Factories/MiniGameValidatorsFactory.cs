@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using _Game.Source.Common.Validation;
+using _Game.Source.Domain.MiniGames;
 using _Game.Source.Domain.Plane;
 using _Game.Source.Domain.Plane.Component;
-using _Game.Source.Domain.Plane.MiniGames;
 using _Game.Source.Domain.Plane.Validation;
 using _Game.Source.Domain.Plane.Validation.Predicates;
 using Zenject;
@@ -52,6 +52,10 @@ namespace _Game.Source.Infrastructure.Factories
         {
             return new Dictionary<Type, MiniGameValidationFailureReasonType>()
             {
+                {
+                     typeof(NullPredicate), 
+                     MiniGameValidationFailureReasonType.None  
+                },
                 {
                     typeof(PlaneContainComponentPredicate<FuselageComponent>),
                     MiniGameValidationFailureReasonType.MissingFuselage

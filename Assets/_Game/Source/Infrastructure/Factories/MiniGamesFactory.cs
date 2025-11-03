@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
-using _Game.Source.Domain.Plane.MiniGames;
+using System.Linq;
+using _Game.Source.Domain.MiniGames;
 using Zenject;
 
 namespace _Game.Source.Infrastructure.Factories
@@ -8,7 +10,13 @@ namespace _Game.Source.Infrastructure.Factories
     {
         public Dictionary<MiniGameType, MiniGame> Create()
         {
-            return new Dictionary<MiniGameType, MiniGame>();
+            var miniGames =  new List<MiniGameType>();
+            for (var i = 0; i < Enum.GetValues(typeof(MiniGameType)).Length; i++)
+            {
+                miniGames.Add((MiniGameType)i);
+            }
+
+            return miniGames.ToDictionary(key => key, value => new MiniGame());
         }
     }
 }

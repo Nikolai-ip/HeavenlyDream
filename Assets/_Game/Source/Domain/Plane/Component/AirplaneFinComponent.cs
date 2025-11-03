@@ -2,11 +2,11 @@ namespace _Game.Source.Domain.Plane.Component
 {
     public class AirplaneFinComponent : PlaneComponent
     {
-        public float CenterOffsetX { get; }
+        public float CenterOffsetVertical { get; }
 
-        public AirplaneFinComponent(float centerOffsetX)
+        public AirplaneFinComponent(float centerOffsetVertical)
         {
-            CenterOffsetX = centerOffsetX;
+            CenterOffsetVertical = centerOffsetVertical;
         }
     }
 }

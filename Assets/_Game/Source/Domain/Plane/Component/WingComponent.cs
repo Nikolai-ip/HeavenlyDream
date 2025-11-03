@@ -2,14 +2,14 @@ namespace _Game.Source.Domain.Plane.Component
 {
     public class WingComponent: PlaneComponent
     {
-        public float MountingDistance { get; }
+        public float CenterOffsetVertical { get; }
 
-        public float CenterOffsetX { get; }
+        public float CenterOffsetHorizontal { get; }
 
-        public WingComponent(float mountingDistance, float centerOffsetX)
+        public WingComponent(float centerOffsetVertical, float centerOffsetHorizontal)
         {
-            MountingDistance = mountingDistance;
-            CenterOffsetX = centerOffsetX;
+            CenterOffsetVertical = centerOffsetVertical;
+            CenterOffsetHorizontal = centerOffsetHorizontal;
         }
     }
 }

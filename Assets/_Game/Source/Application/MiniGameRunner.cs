@@ -1,4 +1,4 @@
-using _Game.Source.Domain.Plane.MiniGames;
+using _Game.Source.Domain.MiniGames;
 using UnityEngine;
 using Zenject;
 

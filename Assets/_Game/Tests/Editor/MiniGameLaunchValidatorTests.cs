@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Game.Source.Common.Validation;
-using _Game.Source.Domain.Plane.MiniGames;
+using _Game.Source.Domain.MiniGames;
 using _Game.Source.Domain.Plane.Validation;
 using NUnit.Framework;
 using UnityEngine.TestTools;
@@ -58,6 +58,7 @@ namespace Project.Tests
             Assert.AreEqual(MiniGameValidationFailureReasonType.None, result.FailureReason);
         }
 
+        
         // Негативный сценарий: один из предикатов возвращает false
         [Test]
         public void MiniGameCanBeLaunched_WhenValidatorFails_ShouldReturnCanBeLaunchedFalseAndCorrectFailureReason()

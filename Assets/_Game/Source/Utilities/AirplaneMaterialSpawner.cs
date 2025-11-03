@@ -1,8 +1,6 @@
-using System;
 using _Game.Source.Application;
 using Plugins.Pool;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Zenject;
 
 namespace _Game.Source.Utilities

@@ -1,0 +1,1 @@
+You have to import Dotween and in generate Dotween asmdef via dotween settings window. Also you have to refered DOTweenFramework to TextMeshPro and DOTween.Modules

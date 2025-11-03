@@ -14,10 +14,10 @@ namespace _Game.Source.Domain.ErrorCalculation.PlaneComponentsSimilarityEvaluati
 
         public float EvaluateErrorValue(WingComponent rc, WingComponent c)
         {
-            float mountError = SimilarityValueUtility.CalcError(rc.MountingDistance, c.MountingDistance,
+            float mountError = SimilarityValueUtility.CalcError(rc.CenterOffsetVertical, c.CenterOffsetVertical,
                 _wingErrorEvaluateParams.MountainSimilarityGrade, _wingErrorEvaluateParams.MaxMountainDistance);
                 
-            float offsetXError = SimilarityValueUtility.CalcError(rc.CenterOffsetX,  c.CenterOffsetX, 
+            float offsetXError = SimilarityValueUtility.CalcError(rc.CenterOffsetHorizontal,  c.CenterOffsetHorizontal, 
                 _wingErrorEvaluateParams.OffsetXSimilarityGrade, _wingErrorEvaluateParams.MaxOffsetXDistance);
             
             float similarity = mountError +  offsetXError;

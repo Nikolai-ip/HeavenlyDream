@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Game.Source.Common.Validation;
-using _Game.Source.Domain.Plane.MiniGames;
+using _Game.Source.Domain.MiniGames;
 using _Game.Source.Domain.Plane.Validation;
 using _Game.Source.Infrastructure.Factories;
 using Plugins.DIHelpers;
@@ -15,10 +15,11 @@ namespace _Game.Source.Infrastructure.Installers
         {
             Container.Bind<Dictionary<MiniGameType, Validator>>().FromFactory<MiniGameValidatorsFactory>().AsCached();
             Container.Bind<Dictionary<Type, MiniGameValidationFailureReasonType>>().FromFactory<MiniGameValidatorsFactory>().AsCached();
-
             Container.Bind<Dictionary<MiniGameType, MiniGame>>().FromFactory<MiniGamesFactory>().AsCached();
+
+            Container.Bind<MiniGamesContainer>().AsSingle();
             Container.Bind<MiniGameLaunchValidator>().AsSingle();
-            Container.Bind<MiniGameLauncher>().AsSingle();
+            Container.BindInterfacesAndSelfTo<MiniGameLauncher>().AsSingle();
         }
     }
 }

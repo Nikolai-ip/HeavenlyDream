@@ -18,7 +18,7 @@ namespace _Game.Source.Domain.ErrorCalculation.PlaneComponentsSimilarityEvaluati
         public float EvaluateErrorValue(StabilizerComponent rc, StabilizerComponent c)
         {
             float error =
-                SimilarityValueUtility.CalcError(rc.CenterOffsetX, c.CenterOffsetX, _errorPower, _maxCenterOffsetX);
+                SimilarityValueUtility.CalcError(rc.CenterOffsetHorizontal, c.CenterOffsetHorizontal, _errorPower, _maxCenterOffsetX);
             return error;
         }
 

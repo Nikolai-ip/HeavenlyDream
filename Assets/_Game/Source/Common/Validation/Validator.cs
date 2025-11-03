@@ -12,28 +12,27 @@ namespace _Game.Source.Common.Validation
             _predicates = predicates;
         }
 
-        public virtual bool IsValid(out IPredicate failerPredicate)
+        public bool IsValid(out IPredicate failerPredicate)
         {
-            bool result;
-            failerPredicate = null;
+            failerPredicate = new NullPredicate();
             if (_predicates.Count == 0) return true;
-            result = _predicates.Any(predicate=>predicate.OperatorType == BoolOperatorType.And);
+            var isValid = _predicates.Any(predicate=>predicate.OperatorType == BoolOperatorType.And);
             for (var i = 0; i < _predicates.Count; i++)
             {
                 switch (_predicates[i].OperatorType)
                 {
-                    case BoolOperatorType.And: result = result && _predicates[i].Predicate.Evaluate();
+                    case BoolOperatorType.And: isValid = isValid && _predicates[i].Predicate.Evaluate();
                         break;
-                    case BoolOperatorType.Or: result = result || _predicates[i].Predicate.Evaluate();
+                    case BoolOperatorType.Or: isValid = isValid || _predicates[i].Predicate.Evaluate();
                         break;
                 }
 
-                if (result == false && failerPredicate == null)
+                if (!isValid && failerPredicate.GetType() ==  typeof(NullPredicate))
                 {
                     failerPredicate = _predicates[i].Predicate;
                 }
             }
-            return result;
+            return isValid;
         }
     }
 

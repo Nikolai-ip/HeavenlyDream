@@ -1,3 +1,5 @@
+using System;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -12,6 +14,10 @@ namespace _Game.Source.Infrastructure.Input.Pointer
     /// </summary>
     public class PointerInteractionListener: MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IBeginDragHandler, IDragHandler, IEndDragHandler 
     {
+        [SerializeField] private float pointerDownInterval = 0.2f;
+        [SerializeField] private float pointerUpInterval = 0.2f;
+        [SerializeField] private bool _debug;
+        
         [Header("Events with PointerEventData argument")]
         public UnityEvent<PointerEventData> onPointerDownEventData;
         public UnityEvent<PointerEventData> onPointerUpEventData;
@@ -25,21 +31,30 @@ namespace _Game.Source.Infrastructure.Input.Pointer
         public UnityEvent onBeginDrag;
         public UnityEvent onDrag;
         public UnityEvent onEndDrag;
-
-
         
-        public void OnPointerDown(PointerEventData eventData)
+        private readonly Subject<PointerEventData> _pointerDownSubject = new();
+        private readonly Subject<PointerEventData> _pointerUpSubject = new();
+
+        private void OnEnable()
         {
-            onPointerDownEventData.Invoke(eventData);
-            onPointerDown.Invoke();
+            _pointerDownSubject.ThrottleFirst(TimeSpan.FromSeconds(pointerDownInterval)).Subscribe((e) =>
+            {
+                onPointerDownEventData.Invoke(e);
+                onPointerDown.Invoke();
+                if (_debug) Debug.Log("[PointerInteractionListener] OnPointerDown");
+            }).AddTo(this);
+            
+            _pointerUpSubject.ThrottleFirst(TimeSpan.FromSeconds(pointerUpInterval)).Subscribe((e) =>
+            {
+                onPointerUpEventData.Invoke(e);
+                onPointerUp.Invoke();
+                if (_debug) Debug.Log("[PointerInteractionListener] OnPointerUp");
+            }).AddTo(this);
         }
 
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            onPointerUpEventData.Invoke(eventData);
-            onPointerUp.Invoke();
-        }
-
+        public void OnPointerDown(PointerEventData e) => _pointerDownSubject.OnNext(e);
+        public void OnPointerUp(PointerEventData e) => _pointerUpSubject.OnNext(e);
+        
         public void OnBeginDrag(PointerEventData eventData)
         {
             onBeginDragEventData.Invoke(eventData);
