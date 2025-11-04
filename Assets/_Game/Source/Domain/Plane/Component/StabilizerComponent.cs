@@ -2,7 +2,7 @@ namespace _Game.Source.Domain.Plane.Component
 {
     public class StabilizerComponent: PlaneComponent
     {
-        public float CenterOffsetHorizontal { get; }
+        public float CenterOffsetHorizontal { get; set; }
 
         public StabilizerComponent(float centerOffsetHorizontal)
         {

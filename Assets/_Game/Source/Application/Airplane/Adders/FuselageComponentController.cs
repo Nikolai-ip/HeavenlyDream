@@ -7,17 +7,17 @@ namespace _Game.Source.Application.Airplane.Adders
 {
     public class FuselageComponentController: PlaneComponentController
     {
-        [Inject] private PlaneComponentContainer _planeComponentContainer;
+
         [field: SerializeField] public float PolishDegree { get; set; }
 
         public override void TryAdd()
         {
-            _planeComponentContainer.AddComponent(new FuselageComponent(PolishDegree), PlaneComponentQuantityMode.Single);
+            PlaneComponentContainer.AddComponent(new FuselageComponent(PolishDegree), PlaneComponentQuantityMode.Single);
         }
 
         public override void TryAdjustComponentParams()
         {
-            if (_planeComponentContainer.TryGetComponent<FuselageComponent>(out var fuselageComponent))
+            if (PlaneComponentContainer.TryGetComponent<FuselageComponent>(out var fuselageComponent))
             {
                 fuselageComponent.PolishingDegree =  PolishDegree;
             }
