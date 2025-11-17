@@ -1,0 +1,1001 @@
+fileFormatVersion: 2
+guid: 1c65aed8c475c914f89ed5f6e6fa3b6c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8822861634191846760
+    second: DeskEnviromentAtlas_0
+  - first:
+      213: -3720074679687499128
+    second: DeskEnviromentAtlas_1
+  - first:
+      213: -3468392272047029993
+    second: DeskEnviromentAtlas_2
+  - first:
+      213: -1338417285208081130
+    second: DeskEnviromentAtlas_3
+  - first:
+      213: 3828734127963071874
+    second: DeskEnviromentAtlas_4
+  - first:
+      213: 581113534699837971
+    second: DeskEnviromentAtlas_5
+  - first:
+      213: 6674728062722237959
+    second: DeskEnviromentAtlas_6
+  - first:
+      213: -3897837777985352917
+    second: DeskEnviromentAtlas_7
+  - first:
+      213: 265235590990495838
+    second: DeskEnviromentAtlas_8
+  - first:
+      213: -8276192201020251382
+    second: DeskEnviromentAtlas_9
+  - first:
+      213: 7435694788278966403
+    second: DeskEnviromentAtlas_10
+  - first:
+      213: -444002526046952756
+    second: DeskEnviromentAtlas_11
+  - first:
+      213: -6919455875905354432
+    second: DeskEnviromentAtlas_12
+  - first:
+      213: -41536746117656064
+    second: DeskEnviromentAtlas_13
+  - first:
+      213: -6400375424272431947
+    second: DeskEnviromentAtlas_14
+  - first:
+      213: -788249818191112260
+    second: DeskEnviromentAtlas_15
+  - first:
+      213: -7939386209715264128
+    second: DeskEnviromentAtlas_16
+  - first:
+      213: 994447606666970758
+    second: DeskEnviromentAtlas_17
+  - first:
+      213: 4205575713622433672
+    second: DeskEnviromentAtlas_18
+  - first:
+      213: 6392597987614514760
+    second: DeskEnviromentAtlas_19
+  - first:
+      213: 6964358765452159214
+    second: DeskEnviromentAtlas_20
+  - first:
+      213: -2443413459874527440
+    second: DeskEnviromentAtlas_21
+  - first:
+      213: 7476967996427863306
+    second: DeskEnviromentAtlas_22
+  - first:
+      213: 3876273667748482694
+    second: DeskEnviromentAtlas_23
+  - first:
+      213: -8429964844653614255
+    second: DeskEnviromentAtlas_24
+  - first:
+      213: -89989170962863640
+    second: DeskEnviromentAtlas_25
+  - first:
+      213: -8302052863244500492
+    second: DeskEnviromentAtlas_26
+  - first:
+      213: 7723934670763821527
+    second: DeskEnviromentAtlas_27
+  - first:
+      213: -6722266837217757094
+    second: DeskEnviromentAtlas_28
+  - first:
+      213: -8366203182830336922
+    second: DeskEnviromentAtlas_29
+  - first:
+      213: 4831533252630687144
+    second: DeskEnviromentAtlas_30
+  - first:
+      213: 1525828987588600261
+    second: DeskEnviromentAtlas_31
+  - first:
+      213: -428223893488372909
+    second: DeskEnviromentAtlas_32
+  - first:
+      213: 3276260897897503225
+    second: DeskEnviromentAtlas_33
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 119
+        width: 113
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86d6d6829e9117a70800000000000000
+      internalID: 8822861634191846760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_1
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 126
+        width: 58
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8823d43e9c3af5cc0800000000000000
+      internalID: -3720074679687499128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_2
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 122
+        width: 45
+        height: 72
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7114deada9bcddfc0800000000000000
+      internalID: -3468392272047029993
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_3
+      rect:
+        serializedVersion: 2
+        x: 279
+        y: 127
+        width: 39
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61dfde1029cfc6de0800000000000000
+      internalID: -1338417285208081130
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_4
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 127
+        width: 26
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28567a46765622530800000000000000
+      internalID: 3828734127963071874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_5
+      rect:
+        serializedVersion: 2
+        x: 397
+        y: 146
+        width: 29
+        height: 26
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31a94f15ea7801800800000000000000
+      internalID: 581113534699837971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_6
+      rect:
+        serializedVersion: 2
+        x: 435
+        y: 149
+        width: 14
+        height: 27
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 706e3ee0fc561ac50800000000000000
+      internalID: 6674728062722237959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_7
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 149
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2bc51b413918e9c0800000000000000
+      internalID: -3897837777985352917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_8
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 146
+        width: 44
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e5087ce5d5e4ea300800000000000000
+      internalID: 265235590990495838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_9
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 127
+        width: 28
+        height: 19
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a036455da0f052d80800000000000000
+      internalID: -8276192201020251382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_10
+      rect:
+        serializedVersion: 2
+        x: 410
+        y: 126
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38857919305e03760800000000000000
+      internalID: 7435694788278966403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_11
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 86
+        width: 42
+        height: 24
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc268931e0696d9f0800000000000000
+      internalID: -444002526046952756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_12
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 85
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0450cadaa8729ff90800000000000000
+      internalID: -6919455875905354432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_13
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 85
+        width: 12
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 002188aac8e6c6ff0800000000000000
+      internalID: -41536746117656064
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_14
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 85
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b40a17567c4d27a0800000000000000
+      internalID: -6400375424272431947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_15
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 85
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb7d37877f29f05f0800000000000000
+      internalID: -788249818191112260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_16
+      rect:
+        serializedVersion: 2
+        x: 295
+        y: 74
+        width: 42
+        height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08569439e42a1d190800000000000000
+      internalID: -7939386209715264128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_17
+      rect:
+        serializedVersion: 2
+        x: 354
+        y: 92
+        width: 12
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6864f1754dcfccd00800000000000000
+      internalID: 994447606666970758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_18
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 90
+        width: 18
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88f997654d43d5a30800000000000000
+      internalID: 4205575713622433672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_19
+      rect:
+        serializedVersion: 2
+        x: 440
+        y: 85
+        width: 105
+        height: 35
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84ed3a3100217b850800000000000000
+      internalID: 6392597987614514760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_20
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 78
+        width: 32
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee8672ff56f56a060800000000000000
+      internalID: 6964358765452159214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_21
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 72
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03745cc6760471ed0800000000000000
+      internalID: -2443413459874527440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_22
+      rect:
+        serializedVersion: 2
+        x: 187
+        y: 68
+        width: 23
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a050c0037c683c760800000000000000
+      internalID: 7476967996427863306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_23
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 69
+        width: 22
+        height: 12
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68e495a0d5a4bc530800000000000000
+      internalID: 3876273667748482694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_24
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 60
+        width: 24
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15be36d33afb20b80800000000000000
+      internalID: -8429964844653614255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_25
+      rect:
+        serializedVersion: 2
+        x: 278
+        y: 43
+        width: 11
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e96027635b40cef0800000000000000
+      internalID: -89989170962863640
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_26
+      rect:
+        serializedVersion: 2
+        x: 298
+        y: 56
+        width: 30
+        height: 13
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f10cc338ee29cc80800000000000000
+      internalID: -8302052863244500492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_27
+      rect:
+        serializedVersion: 2
+        x: 349
+        y: 55
+        width: 35
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d9833fe8ade03b60800000000000000
+      internalID: 7723934670763821527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_28
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 53
+        width: 26
+        height: 21
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a583f3a7de5b5b2a0800000000000000
+      internalID: -6722266837217757094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_29
+      rect:
+        serializedVersion: 2
+        x: 450
+        y: 26
+        width: 68
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 664c7a0088645eb80800000000000000
+      internalID: -8366203182830336922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_30
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 52
+        width: 17
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ad2a8b05ed0d0340800000000000000
+      internalID: 4831533252630687144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_31
+      rect:
+        serializedVersion: 2
+        x: 189
+        y: 29
+        width: 52
+        height: 25
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c166394165dc2510800000000000000
+      internalID: 1525828987588600261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_32
+      rect:
+        serializedVersion: 2
+        x: 139
+        y: 28
+        width: 40
+        height: 14
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3537a4043a4ae0af0800000000000000
+      internalID: -428223893488372909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DeskEnviromentAtlas_33
+      rect:
+        serializedVersion: 2
+        x: 302
+        y: 0
+        width: 56
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f9dea2aded977d20800000000000000
+      internalID: 3276260897897503225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 81b1c949fc9eedf459869595fd63f993
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      DeskEnviromentAtlas_0: 8822861634191846760
+      DeskEnviromentAtlas_1: -3720074679687499128
+      DeskEnviromentAtlas_10: 7435694788278966403
+      DeskEnviromentAtlas_11: -444002526046952756
+      DeskEnviromentAtlas_12: -6919455875905354432
+      DeskEnviromentAtlas_13: -41536746117656064
+      DeskEnviromentAtlas_14: -6400375424272431947
+      DeskEnviromentAtlas_15: -788249818191112260
+      DeskEnviromentAtlas_16: -7939386209715264128
+      DeskEnviromentAtlas_17: 994447606666970758
+      DeskEnviromentAtlas_18: 4205575713622433672
+      DeskEnviromentAtlas_19: 6392597987614514760
+      DeskEnviromentAtlas_2: -3468392272047029993
+      DeskEnviromentAtlas_20: 6964358765452159214
+      DeskEnviromentAtlas_21: -2443413459874527440
+      DeskEnviromentAtlas_22: 7476967996427863306
+      DeskEnviromentAtlas_23: 3876273667748482694
+      DeskEnviromentAtlas_24: -8429964844653614255
+      DeskEnviromentAtlas_25: -89989170962863640
+      DeskEnviromentAtlas_26: -8302052863244500492
+      DeskEnviromentAtlas_27: 7723934670763821527
+      DeskEnviromentAtlas_28: -6722266837217757094
+      DeskEnviromentAtlas_29: -8366203182830336922
+      DeskEnviromentAtlas_3: -1338417285208081130
+      DeskEnviromentAtlas_30: 4831533252630687144
+      DeskEnviromentAtlas_31: 1525828987588600261
+      DeskEnviromentAtlas_32: -428223893488372909
+      DeskEnviromentAtlas_33: 3276260897897503225
+      DeskEnviromentAtlas_4: 3828734127963071874
+      DeskEnviromentAtlas_5: 581113534699837971
+      DeskEnviromentAtlas_6: 6674728062722237959
+      DeskEnviromentAtlas_7: -3897837777985352917
+      DeskEnviromentAtlas_8: 265235590990495838
+      DeskEnviromentAtlas_9: -8276192201020251382
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

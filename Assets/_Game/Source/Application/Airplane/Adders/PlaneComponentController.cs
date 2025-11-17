@@ -4,10 +4,11 @@ using Zenject;
 
 namespace _Game.Source.Application.Airplane.Adders
 {
-    public abstract class PlaneComponentController : MonoBehaviour
+    public abstract class PlaneComponentController: MonoBehaviour, IPlaneComponentAdder, IPlaneComponentAdjustment
     {
         [Inject] protected PlaneComponentContainer PlaneComponentContainer;
         public abstract void TryAdd();
-        public abstract void TryAdjustComponentParams();
+        public virtual void TryAdjustComponentParams()
+        { }
     }
 }

@@ -19,10 +19,14 @@ public class PaperAircraftMoveController : MonoBehaviour
 
     [Range(0, 2)] [SerializeField] private float _changeForceVectorSpeed;
     [SerializeField] private Vector3 _direction;
+    private Vector3 _lerpDirection;
+    private Vector3 _currentTargetPoint;
     [SerializeField] private ForceMode _forceMode;
     [SerializeField] private float _sqrtApproximation;
     private Rigidbody _rb;
+    private Trajectory _currentTrajectory;
     [SerializeField] private Trajectory _trajectory;
+    [SerializeField] private Trajectory _fallTrajectory;
     public event Action OnLaunch;
     private CancellationTokenSource _cts;
     private Random _rnd = new();
@@ -30,6 +34,7 @@ public class PaperAircraftMoveController : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _currentTrajectory =  _trajectory;
         LaunchAircraft();
     }
 
@@ -50,10 +55,14 @@ public class PaperAircraftMoveController : MonoBehaviour
     private async UniTask FlyingProcess(CancellationToken cts)
     {
         float elapsedTime = 0;
+        SetNewDirection();
         while (!cts.IsCancellationRequested)
         {
             elapsedTime += Time.fixedDeltaTime;
-            SetDirection();
+            if (IsReachTargetPoint())
+                SetNewDirection();
+
+            _lerpDirection = Vector3.Lerp(_direction, _direction, _changeForceVectorSpeed);
             Move();
             if (elapsedTime >= _changePowerInterval)
             {
@@ -64,33 +73,42 @@ public class PaperAircraftMoveController : MonoBehaviour
         }   
     }
 
+    private bool IsReachTargetPoint() => (_currentTargetPoint - transform.position).sqrMagnitude < _sqrtApproximation;
+
     private void SetFlightPower()
     {
         float t = _rnd.RandomNormal(0.5f, _flightPowerStdDev);
         _flightPower = Mathf.Lerp(_minFlightPower, _maxFlightPower, t);
     }
 
-    private void SetDirection()
+    private void SetNewDirection()
     {
-        Vector3 nextPoint = _trajectory.GetNextPoint();
-        Vector3 currentPoint = _trajectory.GetCurrentPoint();
-        Vector3 diff = nextPoint - transform.position;
-        if (diff.sqrMagnitude < _sqrtApproximation)
-            _trajectory.OnKeyPointReached();
+        if (_currentTrajectory.IsTrajectoryOver())
+        {
+            _currentTrajectory = _fallTrajectory;
+            _currentTrajectory.CreateTrajectoryPoints(transform.position);
+        }
         
-        Vector3 dir = (nextPoint - currentPoint).normalized;
-        
-        _direction = Vector3.Lerp(_direction, dir, _changeForceVectorSpeed);
+        if (_currentTrajectory.TryGetNextPoint(out var nextPoint))
+        {
+            _currentTargetPoint = nextPoint;
+            _direction = (_currentTargetPoint - transform.position).normalized;
+        }
     }
 
     private void Move()
     {
-        _rb.AddForce(_direction * _flightPower, _forceMode);
+        _rb.AddForce(_lerpDirection * _flightPower, _forceMode);
     }
 
     private void OnDisable()
     {
         _cts?.Dispose();
         _cts = null;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(_currentTargetPoint, 1f);
     }
 }

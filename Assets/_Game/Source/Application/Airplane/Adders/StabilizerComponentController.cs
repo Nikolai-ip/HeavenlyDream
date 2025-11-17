@@ -11,13 +11,5 @@ namespace _Game.Source.Application.Airplane.Adders
         {
             PlaneComponentContainer.AddComponent(new StabilizerComponent(CenterOffsetHorizontal), PlaneComponentQuantityMode.Single);
         }
-
-        public override void TryAdjustComponentParams()
-        {
-            if (PlaneComponentContainer.TryGetComponent(out StabilizerComponent stabilizerComponent))
-            {
-                stabilizerComponent.CenterOffsetHorizontal = CenterOffsetHorizontal;
-            }
-        }
     }
 }

@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: _miniGameType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: -1290165365668808281, guid: 302671e3c1ab68b4aa1b75c12d0c7495, type: 3}
+      propertyPath: _miniGameType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2082670901134131252, guid: 302671e3c1ab68b4aa1b75c12d0c7495, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5

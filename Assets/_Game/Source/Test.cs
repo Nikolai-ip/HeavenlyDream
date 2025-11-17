@@ -129,8 +129,12 @@ namespace _Game.Source
 			        }
 		        };
 	        ErrorPlaneEvaluator errorPlaneEvaluator = new(componentsWeight, planeComponentsSimilarityEvaluators);
-	        float errorValue = errorPlaneEvaluator.EvaluateError(referencePlane, plane);
-	        Debug.Log(errorValue);
+	        var evaluateResult = errorPlaneEvaluator.EvaluateError(referencePlane, plane);
+	        Debug.Log("Common model error percentage: " + evaluateResult.CommonError);
+	        foreach (var localError in evaluateResult.LocalErrors)
+	        {
+		        Debug.Log($"Plane component type {localError.Key} : Local error: {localError.Value}");
+	        }
         }
     }
 }

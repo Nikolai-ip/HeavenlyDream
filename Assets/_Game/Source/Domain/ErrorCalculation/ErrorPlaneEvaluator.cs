@@ -21,9 +21,10 @@ namespace _Game.Source.Domain.ErrorCalculation
         /// <param name="referencePlane">The object witch will be reference for evaluate similarity</param>
         /// <param name="plane">The comparable object</param>
         /// <returns>Error value [0..1]</returns>
-        public float EvaluateError(PlaneComponentContainer referencePlane, PlaneComponentContainer plane)
+        public ErrorEvaluateResult EvaluateError(PlaneComponentContainer referencePlane, PlaneComponentContainer plane)
 		{
             float errorPercentage = 0;
+            Dictionary<Type, float> _localErrorsMap = new();
             foreach (var refPlaneComponent in referencePlane.PlaneComponents)
             {
                 var type =  refPlaneComponent.GetType();
@@ -31,21 +32,38 @@ namespace _Game.Source.Domain.ErrorCalculation
                         out var similarityEvaluator) && _componentWeights.TryGetValue(type, out float weight))
                 {
                     
-                    var comparablePlaneComponent = plane.PlaneComponents.FirstOrDefault(component=> component.GetType() == refPlaneComponent.GetType());
-                    float  similarity = EvaluateSimilarity(comparablePlaneComponent, refPlaneComponent, similarityEvaluator);
+                    var comparablePlaneComponent = plane.PlaneComponents.
+                        FirstOrDefault(component=> component.GetType() == refPlaneComponent.GetType());
+                    float  similarity = EvaluateSimilarity(comparablePlaneComponent,
+                        refPlaneComponent, similarityEvaluator);
+                    
                     similarity *= weight;
                     errorPercentage += similarity;
+                    
+                    _localErrorsMap.Add(type, similarity);
                 }
             }
 
             errorPercentage = Math.Clamp(errorPercentage, 0, 1);
-            return errorPercentage;
+            return new ErrorEvaluateResult(errorPercentage, _localErrorsMap);
 		}
         private float EvaluateSimilarity(PlaneComponent refComponent, PlaneComponent comparablePlaneComponent, IPlaneComponentSimilarityEvaluator<PlaneComponent> similarityEvaluator)
         {
             return comparablePlaneComponent != null ? 
                 similarityEvaluator.EvaluateErrorValue(refComponent, comparablePlaneComponent) :
                 similarityEvaluator.EvaluateInAbsentOfComparableErrorValue();
+        }
+    }
+
+    public struct ErrorEvaluateResult
+    {
+        public float CommonError { get; set; }
+        public Dictionary<Type, float> LocalErrors { get; set; }
+
+        public ErrorEvaluateResult(float commonError, Dictionary<Type, float> localErrors)
+        {
+            CommonError = commonError;
+            LocalErrors = localErrors;
         }
     }
 }

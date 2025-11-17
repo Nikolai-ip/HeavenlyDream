@@ -7,17 +7,11 @@ namespace _Game.Source.Application.Airplane.Adders
     public class BalancingComponentController: PlaneComponentController
     {
         [field: SerializeField] public float WeightAmount { get; set; }
+        
         public override void TryAdd()
         {
             PlaneComponentContainer.AddComponent(new BalancingWeightComponent(WeightAmount), PlaneComponentQuantityMode.Single);
         }
-
-        public override void TryAdjustComponentParams()
-        {
-            if (PlaneComponentContainer.TryGetComponent(out BalancingWeightComponent weightComponent))
-            {
-                weightComponent.WeightAmount = WeightAmount;
-            }
-        }
+        
     }
 }

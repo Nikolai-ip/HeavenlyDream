@@ -34,22 +34,24 @@ namespace _Game.Source.Infrastructure.Input.Pointer
         
         private readonly Subject<PointerEventData> _pointerDownSubject = new();
         private readonly Subject<PointerEventData> _pointerUpSubject = new();
+        private CompositeDisposable _compositeDisposable;
 
         private void OnEnable()
         {
+            _compositeDisposable = new();
             _pointerDownSubject.ThrottleFirst(TimeSpan.FromSeconds(pointerDownInterval)).Subscribe((e) =>
             {
                 onPointerDownEventData.Invoke(e);
                 onPointerDown.Invoke();
                 if (_debug) Debug.Log("[PointerInteractionListener] OnPointerDown");
-            }).AddTo(this);
+            }).AddTo(_compositeDisposable);
             
             _pointerUpSubject.ThrottleFirst(TimeSpan.FromSeconds(pointerUpInterval)).Subscribe((e) =>
             {
                 onPointerUpEventData.Invoke(e);
                 onPointerUp.Invoke();
                 if (_debug) Debug.Log("[PointerInteractionListener] OnPointerUp");
-            }).AddTo(this);
+            }).AddTo(_compositeDisposable);
         }
 
         public void OnPointerDown(PointerEventData e) => _pointerDownSubject.OnNext(e);
@@ -71,6 +73,11 @@ namespace _Game.Source.Infrastructure.Input.Pointer
         {
             onEndDragEventData.Invoke(eventData);
             onEndDrag.Invoke();
+        }
+
+        private void OnDisable()
+        {
+            _compositeDisposable.Dispose();
         }
     }
 }

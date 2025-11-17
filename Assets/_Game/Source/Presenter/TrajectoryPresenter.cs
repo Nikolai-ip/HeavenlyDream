@@ -22,12 +22,12 @@ namespace _Game.Source.Presenter
 
         private void OnEnable()
         {
-            _trajectory.OnTrajectoryChanged += ShowTrajectory;
+            _trajectory.OnTrajectoryCreated += ShowTrajectory;
         }
 
         private void OnDisable()
         {
-            _trajectory.OnTrajectoryChanged -= ShowTrajectory;
+            _trajectory.OnTrajectoryCreated -= ShowTrajectory;
         }
 
         private void ShowTrajectory(List<Vector3> trajectory)

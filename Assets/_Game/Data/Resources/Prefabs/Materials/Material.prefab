@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: -3863398734354216178}
   - component: {fileID: 8963323445270023164}
   - component: {fileID: 6129409051247911796}
+  - component: {fileID: -1290165365668808281}
   m_Layer: 0
   m_Name: Material
   m_TagString: Untagged
@@ -206,6 +207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c0f5b13d604c51abba03e0ef973461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointerDownInterval: 0.2
+  pointerUpInterval: 0.2
+  _debug: 0
   onPointerDownEventData:
     m_PersistentCalls:
       m_Calls: []
@@ -248,3 +252,34 @@ MonoBehaviour:
   onEndDrag:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-1290165365668808281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5481101381806896230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ba775f46a344c88b096da933c49b6e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _miniGameType: 0
+  OnMiniGameStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMiniGameExited:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5481101381806896230}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

@@ -24,26 +24,35 @@ namespace _Game.Source.Infrastructure.Factories
             return new Dictionary<MiniGameType, Validator>()
             {
                 {
-                    MiniGameType.PolishRail, new Validator(new List<PredicateWithOperator>())
+                    MiniGameType.PolishRail, new Validator(new List<PredicateWithOperator>()
+                    {
+                        new (new PlaneNotContainComponentPredicate<WingComponent>(_planeComponentContainer), BoolOperatorType.And),
+                        new (new PlaneNotContainComponentPredicate<StabilizerComponent>(_planeComponentContainer), BoolOperatorType.And),
+                        new (new PlaneNotContainComponentPredicate<AirplaneFinComponent>(_planeComponentContainer), BoolOperatorType.And),
+                    })
                 },
                 { MiniGameType.AttachWing, new(new List<PredicateWithOperator>()
                 {
-                    new (new PlaneContainComponentPredicate<FuselageComponent>(_planeComponentContainer), BoolOperatorType.Or)
+                    new (new PlaneContainComponentPredicate<FuselageComponent>(_planeComponentContainer), BoolOperatorType.And),
+                    new (new PlaneNotContainComponentPredicate<WingComponent>(_planeComponentContainer), BoolOperatorType.And)
                 })},
                 { MiniGameType.AttachStabilizer, new(new List<PredicateWithOperator>()
                 {
-                    new (new PlaneContainComponentPredicate<FuselageComponent>(_planeComponentContainer), BoolOperatorType.Or)
+                    new (new PlaneContainComponentPredicate<FuselageComponent>(_planeComponentContainer), BoolOperatorType.And),
+                    new (new PlaneNotContainComponentPredicate<StabilizerComponent>(_planeComponentContainer), BoolOperatorType.And)
                 })},
                 { MiniGameType.AttachFin, new(new List<PredicateWithOperator>()
                 {
                     new (new PlaneContainComponentPredicate<FuselageComponent>(_planeComponentContainer), BoolOperatorType.And),
-                    new (new PlaneContainComponentPredicate<StabilizerComponent>(_planeComponentContainer), BoolOperatorType.And)
+                    new (new PlaneContainComponentPredicate<StabilizerComponent>(_planeComponentContainer), BoolOperatorType.And),
+                    new (new PlaneNotContainComponentPredicate<AirplaneFinComponent>(_planeComponentContainer), BoolOperatorType.And)
                 })},
                 { MiniGameType.SetBalancing, new(new List<PredicateWithOperator>()
                 {
                     new (new PlaneContainComponentPredicate<FuselageComponent>(_planeComponentContainer), BoolOperatorType.And),
                     new (new PlaneContainComponentPredicate<StabilizerComponent>(_planeComponentContainer), BoolOperatorType.And),
                     new (new PlaneContainComponentPredicate<AirplaneFinComponent>(_planeComponentContainer), BoolOperatorType.And),
+                    new (new PlaneNotContainComponentPredicate<BalancingWeightComponent>(_planeComponentContainer), BoolOperatorType.And)
                 })}
             };
         }

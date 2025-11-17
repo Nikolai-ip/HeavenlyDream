@@ -11,15 +11,9 @@ namespace _Game.Source
         private readonly CurveGenerator _curveGenerator = new();
         [SerializeField] private List<Vector3> _curveKeyPoints;
         [SerializeField] private float _step;
-        public override List<Vector3> TrajectoryPoints { get; protected set; } = new();
-        public override event Action<List<Vector3>> OnTrajectoryChanged;
-
-        private void Start()
-        {
-            CreateTrajectory();
-        }
+        public override event Action<List<Vector3>> OnTrajectoryCreated;
         [Button]
-        private void CreateTrajectory()
+        public override void CreateTrajectoryPoints(Vector3 startPosition)
         {
             TrajectoryPoints.Clear();
        
@@ -29,10 +23,9 @@ namespace _Game.Source
                     .AddRange(
                         _curveGenerator.GerCurve(_curveKeyPoints[i], _curveKeyPoints[i+2],  _curveKeyPoints[i+1], _step));
             }
-            OnTrajectoryChanged?.Invoke(TrajectoryPoints);
+            OnTrajectoryCreated?.Invoke(TrajectoryPoints);
         }
-
-
+        
 
     }
 }

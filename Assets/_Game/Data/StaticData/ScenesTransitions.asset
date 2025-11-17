@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c553f9ffb7d049c98eaac2cd35c41969, type: 3}
+  m_Name: ScenesTransitions
+  m_EditorClassIdentifier: 
+  _defaultLoadingScene:
+    Scene: LoadingScene
+  _scenesTransitions:
+    _dictionary:
+    - _key:
+        From:
+          Scene: MainMenu
+        To:
+          Scene: Desktop
+      _value:
+        Scene: LoadingScene
+    - _key:
+        From:
+          Scene: PlaneLaunchTest
+        To:
+          Scene: Desktop
+      _value:
+        Scene: LoadingScene
+    - _key:
+        From:
+          Scene: Desktop
+        To:
+          Scene: PlaneLaunchTest
+      _value:
+        Scene: LoadingScene

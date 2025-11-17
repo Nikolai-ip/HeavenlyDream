@@ -14,14 +14,5 @@ namespace _Game.Source.Application.Airplane.Adders
         {
             PlaneComponentContainer.AddComponent(new WingComponent(CenterOffsetVertical, CenterOffsetHorizontal), PlaneComponentQuantityMode.Single);
         }
-
-        public override void TryAdjustComponentParams()
-        {
-            if (PlaneComponentContainer.TryGetComponent(out WingComponent wingComponent))
-            {
-                wingComponent.CenterOffsetVertical = CenterOffsetVertical;
-                wingComponent.CenterOffsetHorizontal = CenterOffsetHorizontal;
-            }
-        }
     }
 }

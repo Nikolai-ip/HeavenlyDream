@@ -78,7 +78,7 @@ namespace _Game.Source.Presenter
             var fin = (AirplaneFinComponent)component;
             var finTr = _componentObjects.AirplaneFin;
             finTr.gameObject.SetActive(true);
-            finTr.localPosition = new Vector3(fin.CenterOffsetVertical, finTr.localPosition.y, finTr.localPosition.z);
+            finTr.localPosition = new Vector3(finTr.localPosition.x, finTr.localPosition.y, fin.CenterOffsetVertical);
         }
 
         private void AdjustBalancingWeightView(PlaneComponent component)

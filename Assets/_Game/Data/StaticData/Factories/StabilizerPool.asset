@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _config:
     <Prefab>k__BackingField: {fileID: 2840820128251279345, guid: 2a9417d30cae5b84a8260762315f4809, type: 3}
-    <PoolSize>k__BackingField: 3
+    <PoolSize>k__BackingField: 1
     <AutoExpand>k__BackingField: 0
