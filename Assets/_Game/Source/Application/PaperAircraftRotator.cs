@@ -24,16 +24,17 @@ namespace _Game.Source.Application
         }
         private void OnEnable()
         {
-            _moveController.OnLaunch += StartRotateProcesses;
+            _moveController.OnLaunch += StartRotateProcess;
+            _moveController.OnTrajectoryFinished += StopRotateProcess;
         }
 
-        private void StartRotateProcesses()
+        private void StartRotateProcess()
         {
             _cts = new();
             RotatePaperPlane(_cts.Token).Forget();
             RotateAroundXProcess(_cts.Token).Forget();
         }
-        
+
         private async UniTask RotatePaperPlane(CancellationToken cts)
         {
             while (!cts.IsCancellationRequested)
@@ -72,13 +73,20 @@ namespace _Game.Source.Application
             
             _currentXAngle = targetXAngle;
         }
-        
-        private void OnDisable()
+
+        private void StopRotateProcess()
         {
-            _moveController.OnLaunch -= StartRotateProcesses;
             _cts?.Cancel();
+            _cts?.Dispose();
             _cts = null;
         }
 
+        private void OnDisable()
+        {
+            _moveController.OnLaunch -= StartRotateProcess;
+            _moveController.OnTrajectoryFinished -= StopRotateProcess;
+            StopRotateProcess();
+        }
+        
     }
 }

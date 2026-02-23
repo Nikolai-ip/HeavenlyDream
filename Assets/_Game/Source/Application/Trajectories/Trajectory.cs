@@ -31,7 +31,7 @@ namespace _Game.Source
             return false;
         }
 
-        public bool IsTrajectoryOver()
+        protected bool IsTrajectoryOver()
         {
             return _index > TrajectoryPoints.Count - 1;
         }

@@ -22,6 +22,8 @@ namespace _Game.Source
             TrajectoryPoints.Clear();
             float weightsSum = 0;
             _trajectoryWeights.ForEach(tw=>weightsSum += tw.Item2);
+            PointsCount /= (int)weightsSum;
+            
             for (int i = 0; i < PointsCount; i++)
             {
                 Vector3 middlePoint = Vector3.zero;

@@ -1,8 +1,12 @@
 using System;
+using System.Collections;
 using System.Threading;
+using System.Threading.Tasks;
 using _Game.Source;
+using _Game.Source.Application;
 using _Game.Source.Utilities.Extensions;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using NaughtyAttributes;
 using UnityEngine;
 using Random = System.Random;
@@ -11,25 +15,25 @@ public class PaperAircraftMoveController : MonoBehaviour
 {
     [ReadOnly] [SerializeField] private float _flightPower;
     [SerializeField] private float _maxFlightPower = 12f;
+    [SerializeField] private float _minFlightPower = 8f;
     [SerializeField] private float _changePowerInterval;
     [SerializeField] private float _flightPowerStdDev;
-    [SerializeField] private float _minFlightPower = 8f;
     [SerializeField] private float _launchPower;
     [SerializeField] private ForceMode _launchForceMode;
-
     [Range(0, 2)] [SerializeField] private float _changeForceVectorSpeed;
     [SerializeField] private Vector3 _direction;
+    [SerializeField] private Trajectory _trajectory;
+    [SerializeField] private float _reducePowerAfterFinishDuration;
+
     private Vector3 _lerpDirection;
     private Vector3 _currentTargetPoint;
     [SerializeField] private ForceMode _forceMode;
-    [SerializeField] private float _sqrtApproximation;
     private Rigidbody _rb;
     private Trajectory _currentTrajectory;
-    [SerializeField] private Trajectory _trajectory;
-    [SerializeField] private Trajectory _fallTrajectory;
     public event Action OnLaunch;
     private CancellationTokenSource _cts;
-    private Random _rnd = new();
+    private readonly Random _rnd = new();
+    public event Action OnTrajectoryFinished;
 
     private void Start()
     {
@@ -47,23 +51,47 @@ public class PaperAircraftMoveController : MonoBehaviour
             OnLaunch?.Invoke();
             _cts = new CancellationTokenSource();
             await FlyingProcess(_cts.Token);
+            OnTrajectoryOver();
+            StartCoroutine(ReducePower());
         }
         catch (OperationCanceledException) { }
         catch (Exception e) { Debug.LogError(e); }
     }
 
+    private IEnumerator ReducePower()
+    {
+        float currentVelocityX = _rb.linearVelocity.x;
+        
+        var tween = DOTween.To(() => currentVelocityX, (v) =>
+        {
+            currentVelocityX = v;
+            _rb.linearVelocity = new Vector3(currentVelocityX, _rb.linearVelocity.y, 0f);
+        },0, _reducePowerAfterFinishDuration);
+        yield return tween.WaitForCompletion();
+    }
+
+    private void OnTrajectoryOver()
+    {
+        _rb.useGravity = true;
+        OnTrajectoryFinished?.Invoke();
+    }
+
     private async UniTask FlyingProcess(CancellationToken cts)
     {
         float elapsedTime = 0;
-        SetNewDirection();
+        TrySetNewDirection();
         while (!cts.IsCancellationRequested)
         {
             elapsedTime += Time.fixedDeltaTime;
             if (IsReachTargetPoint())
-                SetNewDirection();
+            {
+                var isNextPointExist = TrySetNewDirection();
+                if (!isNextPointExist)
+                    return;
+            }
 
             _lerpDirection = Vector3.Lerp(_direction, _direction, _changeForceVectorSpeed);
-            Move();
+            Move(_lerpDirection,  _flightPower, _forceMode);
             if (elapsedTime >= _changePowerInterval)
             {
                 SetFlightPower();
@@ -73,7 +101,21 @@ public class PaperAircraftMoveController : MonoBehaviour
         }   
     }
 
-    private bool IsReachTargetPoint() => (_currentTargetPoint - transform.position).sqrMagnitude < _sqrtApproximation;
+    private bool IsReachTargetPoint()
+    {
+        return _currentTargetPoint.x > transform.position.x;
+    }
+
+    private bool TrySetNewDirection()
+    {
+        if (_currentTrajectory.TryGetNextPoint(out var nextPoint))
+        {
+            _currentTargetPoint = nextPoint;
+            _direction = (_currentTargetPoint - transform.position).normalized;
+            return true;
+        }
+        return false;
+    }
 
     private void SetFlightPower()
     {
@@ -81,24 +123,9 @@ public class PaperAircraftMoveController : MonoBehaviour
         _flightPower = Mathf.Lerp(_minFlightPower, _maxFlightPower, t);
     }
 
-    private void SetNewDirection()
+    private void Move(Vector3 dir, float flightPower, ForceMode forceMode)
     {
-        if (_currentTrajectory.IsTrajectoryOver())
-        {
-            _currentTrajectory = _fallTrajectory;
-            _currentTrajectory.CreateTrajectoryPoints(transform.position);
-        }
-        
-        if (_currentTrajectory.TryGetNextPoint(out var nextPoint))
-        {
-            _currentTargetPoint = nextPoint;
-            _direction = (_currentTargetPoint - transform.position).normalized;
-        }
-    }
-
-    private void Move()
-    {
-        _rb.AddForce(_lerpDirection * _flightPower, _forceMode);
+        _rb.AddForce(dir * flightPower, forceMode);
     }
 
     private void OnDisable()

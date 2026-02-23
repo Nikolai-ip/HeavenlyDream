@@ -8,6 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Game/Scenes/Desktop.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/_Game/Scenes/MainMenu.unity
+    guid: ababa28fcc06e584cbe6edfdaece174a
+  - enabled: 1
+    path: Assets/_Game/Scenes/LoadingScenes/LoadingScene.unity
+    guid: 64959307b29435d459bc3c0c686ab583
+  - enabled: 1
+    path: Assets/_Game/Scenes/PlaneLaunchTest.unity
+    guid: 12be86581a7bca241ab9f6fa96ec36e9
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

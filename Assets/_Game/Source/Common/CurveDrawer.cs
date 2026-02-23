@@ -33,7 +33,11 @@ namespace _Game.Source.Common
                 _lineRenderer.SetPosition(_lineRenderer.positionCount - 1, _curvePoints[i]);
             }
         }
-        
 
+
+        public void EnableCurve(bool showTrajectory)
+        {
+            _lineRenderer.enabled = showTrajectory;
+        }
     }
 }

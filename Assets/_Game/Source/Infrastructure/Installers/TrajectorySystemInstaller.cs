@@ -16,6 +16,7 @@ namespace _Game.Source.Infrastructure.Installers
         [SerializeField] private Trajectory _stabilizerDependedTrajectory;
         [SerializeField] private Trajectory _finDependedTrajectory;
         [SerializeField] private Trajectory _balancingDependedTrajectory;
+
         public override void InstallBindings(DiContainer Container)
         {   
             var errorEvaluateResult = Container.Resolve<AircraftMadeResultStorage>().ErrorEvaluateResult;

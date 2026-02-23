@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 namespace _Game.Source.Common.Services.SceneTransition
 {
-    public class ViaLoadingSceneSceneLoader: IAsyncSceneLoader
+    public class ViaLoadingSceneSceneLoader: IAsyncSceneLoader, ILoadingFinisher
     {
         private readonly LoadingScenesStorage _loadingScenesStorage;
         private CancellationTokenSource _cts;

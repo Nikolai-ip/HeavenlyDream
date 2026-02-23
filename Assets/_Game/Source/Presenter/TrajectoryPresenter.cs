@@ -13,11 +13,15 @@ namespace _Game.Source.Presenter
         [SerializeField] private Trajectory _trajectory;
         [SerializeField] private float _radius;
         [SerializeField] private Color _color;
+        [SerializeField] private bool _showTrajectory;
         
         private void OnDrawGizmos()
         {
             if (_trajectory.TrajectoryPoints == null) return;
+            _curveDrawer.EnableCurve(_showTrajectory);
+            if (!_showTrajectory) return;
             DrawPoints(_trajectory.TrajectoryPoints, _radius, _color); 
+            ShowTrajectory(_trajectory.TrajectoryPoints);
         }
 
         private void OnEnable()
