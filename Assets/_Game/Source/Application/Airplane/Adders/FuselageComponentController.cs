@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Game.Source.Application.Airplane.Adders
 {
-    public class FuselageComponentController: PlaneComponentController
+    public class FuselageComponentAdjuster: PlaneComponentAdjuster
     {
         [field: SerializeField] public float PolishDegree { get; set; }
 

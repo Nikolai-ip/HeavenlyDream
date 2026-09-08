@@ -6,10 +6,10 @@ namespace _Game.Source.Application.MiniGameUseCases.Commands
 {
     public class AdjustPlaneComponentParamsCommand: ICommandMono
     {
-        [SerializeField] private PlaneComponentController planeComponentController;
+        [SerializeField] private PlaneComponentAdjuster planeComponentAdjuster;
         public override void Execute()
         {
-            planeComponentController.TryAdjustComponentParams();
+            planeComponentAdjuster.TryAdjustComponentParams();
         }
     }
 }

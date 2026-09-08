@@ -47,6 +47,9 @@ TagManager:
   - name: Gameplay
     uniqueID: 250753427
     locked: 0
+  - name: GameplayFront
+    uniqueID: 311322695
+    locked: 0
   - name: EnviromentFront
     uniqueID: 2379424425
     locked: 0

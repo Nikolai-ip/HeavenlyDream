@@ -1,11 +1,10 @@
 using System;
-using Plugins.MVP;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace _Game.Source.Presenter
 {
-    public class ButtonView: MonoBehaviour, IViewInteractable
+    public class ButtonView: MonoBehaviour
     {
         public event Action Callback;
         private Button _button;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Game.Source.Application.Airplane.Adders
 {
-    public class StabilizerComponentController: PlaneComponentController
+    public class StabilizerComponentAdjuster: PlaneComponentAdjuster
     {
         [field: SerializeField] public float CenterOffsetHorizontal { get; set; }
         public override void TryAdd()

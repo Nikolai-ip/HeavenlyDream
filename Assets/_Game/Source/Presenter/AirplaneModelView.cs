@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame;
 using _Game.Source.Domain.Plane;
 using _Game.Source.Domain.Plane.Component;
 using UnityEngine;
@@ -8,12 +9,14 @@ using Zenject;
 
 namespace _Game.Source.Presenter
 {
-    public class AirplanePresenter: MonoBehaviour
+    public class AirplaneModelView: MonoBehaviour
     {
         private PlaneComponentContainer _planeComponentContainer;
         private Dictionary<Type, Action<PlaneComponent>> _adjustViewComponentActions;
         [SerializeField] private PlaneComponentObjects _componentObjects;
         
+        public Vector2 Center => transform.position;
+
         [Inject]
         public void Construct(PlaneComponentContainer planeComponentContainer)
         {
@@ -87,6 +90,11 @@ namespace _Game.Source.Presenter
             var weight = (BalancingWeightComponent)component;
             weightTr.gameObject.SetActive(true);
             weightTr.localScale = new Vector3(weightTr.localScale.x, weight.WeightAmount, weight.WeightAmount);
+        }
+
+        public void RotateForMiniGame(AxisType axisType)
+        {
+            throw new NotImplementedException();
         }
     }
 

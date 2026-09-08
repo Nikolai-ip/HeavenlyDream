@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Game.Source.Application.Airplane.Adders
 {
-    public class BalancingComponentController: PlaneComponentController
+    public class BalancingComponentAdjuster: PlaneComponentAdjuster
     {
         [field: SerializeField] public float WeightAmount { get; set; }
         
