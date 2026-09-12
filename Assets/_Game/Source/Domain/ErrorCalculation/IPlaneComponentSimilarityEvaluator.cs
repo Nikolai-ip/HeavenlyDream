@@ -5,7 +5,7 @@ namespace _Game.Source.Domain.ErrorCalculation
 {
     public interface IPlaneComponentSimilarityEvaluator<in TPlaneComponent>
     {
-        public float EvaluateErrorValue(TPlaneComponent referenceComponent, TPlaneComponent comparableComponent);
+        public float EvaluateErrorValue(TPlaneComponent @ref, TPlaneComponent comp);
         public float EvaluateInAbsentOfComparableErrorValue();
     }
 }

@@ -30,6 +30,7 @@ namespace _Game.Source.Common.Validation
                 if (!isValid && failerPredicate.GetType() ==  typeof(NullPredicate))
                 {
                     failerPredicate = _predicates[i].Predicate;
+                    break;
                 }
             }
             return isValid;

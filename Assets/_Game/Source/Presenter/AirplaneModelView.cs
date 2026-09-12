@@ -12,7 +12,7 @@ namespace _Game.Source.Presenter
     public class AirplaneModelView: MonoBehaviour
     {
         private PlaneComponentContainer _planeComponentContainer;
-        private Dictionary<Type, Action<PlaneComponent>> _adjustViewComponentActions;
+        private Dictionary<AirplaneComponentType, Action<PlaneComponent>> _adjustViewComponentActions;
         [SerializeField] private PlaneComponentObjects _componentObjects;
         
         public Vector2 Center => transform.position;
@@ -23,11 +23,11 @@ namespace _Game.Source.Presenter
             _planeComponentContainer = planeComponentContainer;
             _adjustViewComponentActions = new()
             {
-                { typeof(FuselageComponent), AdjustFuselageView },
-                { typeof(WingComponent), AdjustWingView },
-                { typeof(StabilizerComponent), AdjustStabilizerView },
-                { typeof(AirplaneFinComponent), AdjustFinView},
-                { typeof(BalancingWeightComponent), AdjustBalancingWeightView}
+                {AirplaneComponentType.Fuselage, AdjustFuselageView },
+                {AirplaneComponentType.Wing, AdjustComponentView },
+                {AirplaneComponentType.Stabilizer, AdjustComponentView },
+                {AirplaneComponentType.Fin, AdjustComponentView},
+                {AirplaneComponentType.Balancing, AdjustBalancingWeightView}
             };
         }
         
@@ -45,14 +45,13 @@ namespace _Game.Source.Presenter
             _componentObjects.DisableAll();
             foreach (var planeComponent in _planeComponentContainer.PlaneComponents)
             {
-                var componentType = planeComponent.GetType();
-                if (_adjustViewComponentActions.TryGetValue(componentType, out var adjustComponentView))
+                if (_adjustViewComponentActions.TryGetValue( planeComponent.Type, out var adjustComponentView))
                 {
                     adjustComponentView.Invoke(planeComponent);
                 }
                 else
                 {
-                    Debug.LogError($"Failed to adjust view component with type {componentType}");
+                    Debug.LogError($"Failed to adjust view component with type { planeComponent.Type}");
                 }
             }
         }
@@ -62,27 +61,28 @@ namespace _Game.Source.Presenter
             _componentObjects.Fuselage.gameObject.SetActive(true);
             
         }
-        private void AdjustWingView(PlaneComponent component)
+        private void AdjustComponentView(PlaneComponent component)
         {
-            var wing = (WingComponent)component;
-            _componentObjects.Wing.gameObject.SetActive(true);
-            _componentObjects.Wing.transform.localPosition = new Vector3(wing.CenterOffsetVertical, _componentObjects.Wing.transform.localPosition.y , wing.CenterOffsetHorizontal); 
-        }
-        private void AdjustStabilizerView(PlaneComponent component)
-        {
-            var stabilizerTr = _componentObjects.Stabilizer.transform;
-            var stabilizer = (StabilizerComponent)component;
-            stabilizerTr.gameObject.SetActive(true);
-            stabilizerTr.localPosition = new Vector3(stabilizerTr.localPosition.x, stabilizerTr.localPosition.y, stabilizer.CenterOffsetHorizontal);
+            Transform tr = GetPlaneComponentTr(component.Type);
+            tr.gameObject.SetActive(true);
+            tr.localPosition = component.LocalPosition;
+            tr.localRotation = component.LocalRotation;
         }
 
-        private void AdjustFinView(PlaneComponent component)
+        private Transform GetPlaneComponentTr(AirplaneComponentType componentType)
         {
-            var fin = (AirplaneFinComponent)component;
-            var finTr = _componentObjects.AirplaneFin;
-            finTr.gameObject.SetActive(true);
-            finTr.localPosition = new Vector3(finTr.localPosition.x, finTr.localPosition.y, fin.CenterOffsetVertical);
+            switch (componentType)
+            {
+                case AirplaneComponentType.Wing:
+                    return _componentObjects.Wing;
+                case AirplaneComponentType.Stabilizer:
+                    return _componentObjects.Stabilizer;
+                case AirplaneComponentType.Fin:
+                    return _componentObjects.AirplaneFin;
+            }
+            throw new ArgumentOutOfRangeException(nameof(componentType));
         }
+
 
         private void AdjustBalancingWeightView(PlaneComponent component)
         {

@@ -9,18 +9,18 @@ namespace _Game.Source.Application.TempStorages
     {
         public ErrorEvaluateResult ErrorEvaluateResult { get; private set; }
 
-        public AircraftMadeResultStorage(float commonError, float fuselageError, float wingError, float stabilizerError, float finError, float balancingWeight)
+        public AircraftMadeResultStorage(float commonError, float fuselageError, float wingError, float stabilizerError, float finError, float balancingError)
         {
             ErrorEvaluateResult = new()
             {
                 CommonError = commonError,
-                LocalErrors = new Dictionary<Type, float>()
+                LocalErrors = new Dictionary<AirplaneComponentType, float>()
                 {
-                    {typeof(FuselageComponent), fuselageError},
-                    {typeof(WingComponent), wingError},
-                    {typeof(StabilizerComponent), stabilizerError},
-                    {typeof(AirplaneFinComponent), finError},
-                    {typeof(BalancingWeightComponent), balancingWeight},
+                    {AirplaneComponentType.Fuselage, fuselageError},
+                    {AirplaneComponentType.Wing, wingError},
+                    {AirplaneComponentType.Stabilizer, stabilizerError},
+                    {AirplaneComponentType.Fin, finError},
+                    {AirplaneComponentType.Balancing, balancingError},
                 }
             };
         }
@@ -30,13 +30,13 @@ namespace _Game.Source.Application.TempStorages
             ErrorEvaluateResult = new()
             {
                 CommonError = 0,
-                LocalErrors = new Dictionary<Type, float>()
+                LocalErrors = new Dictionary<AirplaneComponentType, float>()
                 {
-                    { typeof(FuselageComponent), 0 },
-                    { typeof(WingComponent), 0 },
-                    { typeof(StabilizerComponent), 0 },
-                    { typeof(AirplaneFinComponent), 0 },
-                    { typeof(BalancingWeightComponent), 0 },
+                    {AirplaneComponentType.Fuselage, 0},
+                    {AirplaneComponentType.Wing, 0},
+                    {AirplaneComponentType.Stabilizer, 0},
+                    {AirplaneComponentType.Fin, 0},
+                    {AirplaneComponentType.Balancing, 0},
                 }
             };
         }

@@ -23,10 +23,10 @@ namespace _Game.Source.Infrastructure.Installers
             var localErrors = errorEvaluateResult.LocalErrors;
             List<Tuple<Trajectory, float>> trajectoryWeights = new();
             trajectoryWeights.Add(new (_etaloneTrajectory, 1 - errorEvaluateResult.CommonError));
-            trajectoryWeights.Add(new (_wingDependedTrajectory, localErrors[typeof(WingComponent)]));
-            trajectoryWeights.Add(new (_stabilizerDependedTrajectory, localErrors[typeof(StabilizerComponent)]));
-            trajectoryWeights.Add(new (_finDependedTrajectory, localErrors[typeof(AirplaneFinComponent)]));
-            trajectoryWeights.Add(new (_balancingDependedTrajectory, localErrors[typeof(BalancingWeightComponent)]));
+            trajectoryWeights.Add(new (_wingDependedTrajectory, localErrors[AirplaneComponentType.Wing]));
+            trajectoryWeights.Add(new (_stabilizerDependedTrajectory, localErrors[AirplaneComponentType.Stabilizer]));
+            trajectoryWeights.Add(new (_finDependedTrajectory, localErrors[AirplaneComponentType.Fin]));
+            trajectoryWeights.Add(new (_balancingDependedTrajectory, localErrors[AirplaneComponentType.Balancing]));
             
             _summaryTrajectory.Construct(trajectoryWeights);
         }

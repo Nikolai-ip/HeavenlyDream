@@ -16,11 +16,11 @@ namespace _Game.Source.Domain.ErrorCalculation.PlaneComponentsSimilarityEvaluati
             _absentOfComponentValue = absentOfComponentValue;
         }
 
-        public float EvaluateErrorValue(BalancingWeightComponent rc, BalancingWeightComponent c)
+        public float EvaluateErrorValue(BalancingWeightComponent @ref, BalancingWeightComponent comp)
         {
             ;
             var error =
-                SimilarityValueUtility.CalcError(rc.WeightAmount, c.WeightAmount,
+                SimilarityValueUtility.CalcError(@ref.WeightAmount, comp.WeightAmount,
                     _weightGrade, _maxWeightAmount);
             return error;
         }

@@ -1,4 +1,5 @@
 using System;
+using _Game.Source.Application.Logging;
 
 namespace _Game.Source.Domain.MiniGames
 {

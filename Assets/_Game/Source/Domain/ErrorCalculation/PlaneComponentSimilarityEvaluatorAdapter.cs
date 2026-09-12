@@ -12,9 +12,9 @@ namespace _Game.Source.Domain.ErrorCalculation
             _inner = inner;
         }
 
-        public float EvaluateErrorValue(PlaneComponent referenceComponent, PlaneComponent comparableComponent)
+        public float EvaluateErrorValue(PlaneComponent @ref, PlaneComponent comp)
         {
-            return _inner.EvaluateErrorValue((T) referenceComponent, (T) comparableComponent);
+            return _inner.EvaluateErrorValue((T) @ref, (T) comp);
         }
 
         public float EvaluateInAbsentOfComparableErrorValue() => _inner.EvaluateInAbsentOfComparableErrorValue();

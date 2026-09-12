@@ -10,70 +10,84 @@ namespace _Game.Source.Infrastructure.Factories
 {
     public class ErrorPlaneEvaluateFactory: IFactory<ErrorPlaneEvaluator>
     {
-        private readonly PlaneComponentsErrorParams _params;
+        private readonly PlaneComponentsErrorParams _errorParams;
 
-        public ErrorPlaneEvaluateFactory(PlaneComponentsErrorParams @params)
+        public ErrorPlaneEvaluateFactory(PlaneComponentsErrorParams errorParams)
         {
-            _params = @params;
+            _errorParams = errorParams;
         }
 
         public ErrorPlaneEvaluator Create()
         {
             	       
-	        var componentsWeight = new Dictionary<Type, float>()
+	        var componentsWeight = new Dictionary<AirplaneComponentType, float>()
 	        {
 		        {
-			        typeof(FuselageComponent),
-			        _params.FuselageErrorParams.Weight
+			        AirplaneComponentType.Fuselage,
+			        _errorParams.FuselageErrorParams.Weight
 		        },
 		        {
-			        typeof(WingComponent),
-			        _params.WingErrorParams.Weight
+			        AirplaneComponentType.Wing,
+			        _errorParams.WingErrorParams.Weight
 		        },
 		        {
-			        typeof(StabilizerComponent),
-			        _params.StabilizerErrorParams.Weight
+			        AirplaneComponentType.Stabilizer,
+			        _errorParams.StabilizerErrorParams.Weight
 		        },
 		        {
-			        typeof(AirplaneFinComponent),
-			        _params.FinErrorParams.Weight
+			        AirplaneComponentType.Fin,
+			        _errorParams.FinErrorParams.Weight
 		        },
 		        {
-			        typeof(BalancingWeightComponent),
-			        _params.BalancingWeightErrorParams.Weight
+			        AirplaneComponentType.Balancing,
+			        _errorParams.BalancingWeightErrorParams.Weight
 		        }
 	        };
 	        var planeComponentsSimilarityEvaluators =
-		        new Dictionary<Type, IPlaneComponentSimilarityEvaluator<PlaneComponent>>()
+		        new Dictionary<AirplaneComponentType, IPlaneComponentSimilarityEvaluator<PlaneComponent>>()
 		        {
 			        {
-				        typeof(FuselageComponent),
+				        AirplaneComponentType.Fuselage,
 				        new PlaneComponentSimilarityEvaluatorAdapter<FuselageComponent>(
-					        new FuselageSimilarityEvaluator(_params.FuselageErrorParams.MaxPolishingDegreeValue, _params.FuselageErrorParams.EvaluateSimilarityFuncDegree,
-						        _params.FuselageErrorParams.AbsentOfComponentValue))
+					        new FuselageSimilarityEvaluator(
+						        _errorParams.FuselageErrorParams.MaxPolishingDegreeValue,
+						        _errorParams.FuselageErrorParams.EvaluateSimilarityFuncDegree,
+						        _errorParams.FuselageErrorParams.AbsentOfComponentValue))
 			        },
 			        {
-				        typeof(WingComponent),
-				        new PlaneComponentSimilarityEvaluatorAdapter<WingComponent>
-				        (new WingComponentSimilarityEvaluator(
-					        new WingErrorEvaluateParams(_params.WingErrorParams.MaxVerticalDistance, _params.WingErrorParams.OffsetVerticalSimilarityFuncDegree,
-						        _params.WingErrorParams.MaxHorizontalDistance, _params.WingErrorParams.OffsetHorizontalSimilarityDegree, _params.WingErrorParams.AbsentOfComponentValue)))
+				        AirplaneComponentType.Wing,
+				        new PlaneComponentSimilarityEvaluatorAdapter<PlaneComponent>
+				        (new TransformSimilarityEvaluator(
+					        _errorParams.WingErrorParams.ErrorPower,
+					        _errorParams.WingErrorParams.MaxDistanceDiff,
+						    _errorParams.WingErrorParams.MaxRotationDiff,
+					        _errorParams.WingErrorParams.AbsentOfComponentValue))
 			        },
 			        {
-				        typeof(StabilizerComponent),
-				        new PlaneComponentSimilarityEvaluatorAdapter<StabilizerComponent>(
-					        new StabilizerSimilarityEvaluator(_params.StabilizerErrorParams.MaxCenterOffsetHorizontal, _params.StabilizerErrorParams.EvaluateSimilarityFuncDegree,
-						        _params.StabilizerErrorParams.AbsentOfComponentValue))
+				        AirplaneComponentType.Stabilizer,
+				        new PlaneComponentSimilarityEvaluatorAdapter<PlaneComponent>
+					        (new TransformSimilarityEvaluator(
+						        _errorParams.StabilizerErrorParams.ErrorPower,
+						        _errorParams.StabilizerErrorParams.MaxDistanceDiff,
+						        _errorParams.StabilizerErrorParams.MaxRotationDiff,
+						        _errorParams.StabilizerErrorParams.AbsentOfComponentValue))
 			        },
 			        {
-				        typeof(AirplaneFinComponent),
-				        new PlaneComponentSimilarityEvaluatorAdapter<AirplaneFinComponent>(
-					        new AirplaneFinSimilarityEvaluator(_params.FinErrorParams.MaxCenterOffsetHorizontal, _params.FinErrorParams.EvaluateSimilarityFuncDegree, _params.FinErrorParams.AbsentOfComponentValue))
+				        AirplaneComponentType.Fin,
+				        new PlaneComponentSimilarityEvaluatorAdapter<PlaneComponent>
+				        (new TransformSimilarityEvaluator(
+					        _errorParams.FinErrorParams.ErrorPower,
+					        _errorParams.FinErrorParams.MaxDistanceDiff,
+					        _errorParams.FinErrorParams.MaxRotationDiff,
+					        _errorParams.FinErrorParams.AbsentOfComponentValue))
 			        },
 			        {
-				        typeof(BalancingWeightComponent),
+				        AirplaneComponentType.Balancing,
 				        new PlaneComponentSimilarityEvaluatorAdapter<BalancingWeightComponent>(
-					        new BalancingWeightSimilarityEvaluator(_params.BalancingWeightErrorParams.MaxWeightAmount, _params.BalancingWeightErrorParams.EvaluateSimilarityFuncDegree, _params.BalancingWeightErrorParams.EvaluateSimilarityFuncDegree))
+					        new BalancingWeightSimilarityEvaluator(
+						        _errorParams.BalancingWeightErrorParams.MaxWeightAmount,
+						        _errorParams.BalancingWeightErrorParams.EvaluateSimilarityFuncDegree, 
+						        _errorParams.BalancingWeightErrorParams.AbsentOfComponentValue))
 			        }
 		        };
 

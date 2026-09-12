@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
 {
-    public class FixComponentPhase
+    public class FixLocalPosComponentPhase
     {
         private HandShaker _handShaker;
         private readonly AirplaneModelView _airplaneView;
@@ -13,7 +13,7 @@ namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
         private readonly float _distanceToAbleFix;
 
 
-        public FixComponentPhase(HandShaker handShaker, AirplaneModelView airplaneView, Transform fixableComponentTr, float distanceToAbleFix)
+        public FixLocalPosComponentPhase(HandShaker handShaker, AirplaneModelView airplaneView, Transform fixableComponentTr, float distanceToAbleFix)
         {
             _handShaker = handShaker;
             _airplaneView = airplaneView;
@@ -21,7 +21,7 @@ namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
             _distanceToAbleFix = distanceToAbleFix;
         }
 
-        public async UniTask<float> ProcessPhase(AxisType axisType)
+        public async UniTask<Vector3> ProcessPhase(AxisType axisType)
         {
             _airplaneView.RotateForMiniGame(axisType);
             SetUpHandShake(axisType);
@@ -33,18 +33,20 @@ namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
 
             switch (axisType)
             {
-                case AxisType.Horizontal:
-                    return _fixableComponentTr.localPosition.x;
-                case AxisType.Vertical:
-                    return _fixableComponentTr.localPosition.y;
+                case AxisType.X:
+                    return new Vector3(_fixableComponentTr.localPosition.x, 0, 0);
+                case AxisType.Y:
+                    return new Vector3(0, _fixableComponentTr.localPosition.y, 0);
+                case AxisType.Z:
+                    return new Vector3(0, 0, _fixableComponentTr.localPosition.z);
                 default:
-                    return 0;
+                    return _fixableComponentTr.localPosition;
             }            
         }
 
         private void SetUpHandShake(AxisType axisType)
         {
-            _handShaker.SetFreezeAxis(axisType != AxisType.Vertical,axisType != AxisType.Horizontal);
+            _handShaker.SetFreezeAxis(axisType != AxisType.Y,axisType != AxisType.X);
         }
 
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Game.Source.Application.Logging;
 using UnityEngine;
 
 namespace _Game.Source.Domain.MiniGames
@@ -7,7 +8,7 @@ namespace _Game.Source.Domain.MiniGames
     public class MiniGameLauncher: IDisposable
     {
         private readonly MiniGameLaunchValidator _miniGameLaunchValidator;
-        private MiniGame _miniGame;
+        private MiniGame _currentMiniGame;
         private readonly MiniGamesContainer _miniGamesContainer;
         public event Action<MiniGameValidationFailureReasonType> OnLaunchFailed;
 
@@ -19,27 +20,29 @@ namespace _Game.Source.Domain.MiniGames
 
         public void RunMiniGame(MiniGameType miniGameType)
         {
-            if (_miniGame != null) return;
+            if (_currentMiniGame != null) return;
             var validatorResult = _miniGameLaunchValidator.MiniGameCanBeLaunched(miniGameType);
             if (validatorResult.CanBeLaunched)
             {
-                if (_miniGamesContainer.TryGetGame(miniGameType, out _miniGame))
+                if (_miniGamesContainer.TryGetGame(miniGameType, out _currentMiniGame))
                 {
-                    _miniGame.Run();
-                    _miniGame.OnExit += () => _miniGame = null;
+                    MiniGameLogger.Instance.Log(()=>$"Start minigame {miniGameType}");
+                    _currentMiniGame.Run();
+                    _currentMiniGame.OnExit += () => _currentMiniGame = null;
                 }
                 else
                     Debug.LogException(new KeyNotFoundException($"[MiniGameLauncher]. Failed to run the minigame {miniGameType}"));
             }
             else
             {
+                MiniGameLogger.Instance.Log(()=>$"Failed Start minigame {miniGameType}. Fail reason: {validatorResult.FailureReason}");
                 OnLaunchFailed?.Invoke(validatorResult.FailureReason);   
             }
         }
 
         public void Dispose()
         {
-            _miniGame = null;
+            _currentMiniGame = null;
         }
     }
 }

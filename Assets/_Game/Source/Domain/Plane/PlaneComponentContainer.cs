@@ -8,49 +8,45 @@ namespace _Game.Source.Domain.Plane
 {
     public class PlaneComponentContainer
     {
-        private readonly List<PlaneComponent> _planeComponents;
-        public IReadOnlyList<PlaneComponent> PlaneComponents => _planeComponents;
+        private readonly Dictionary<Guid, PlaneComponent> _planeComponents = new();
+        public IReadOnlyList<PlaneComponent> PlaneComponents => _planeComponents.Values.ToList();
+        
         public event Action OnPlaneComponentsChanged;
-
-        public PlaneComponentContainer()
-        {
-            _planeComponents = new();
-        }
-
         public PlaneComponentContainer(List<PlaneComponent> planeComponents)
         {
-            _planeComponents = planeComponents;
-        }
-
-        public void AddComponent(PlaneComponent planeComponent, PlaneComponentQuantityMode mode)
-        {
-            switch (mode)
+            foreach (var planeComponent in planeComponents)
             {
-                case PlaneComponentQuantityMode.Single:
-                {
-                    if (!_planeComponents.Any(c => c.GetType() == planeComponent.GetType()))
-                    {
-                        _planeComponents.Add(planeComponent);
-                        Debug.Log($"[PlaneComponentContainer] Added Component: {planeComponent.GetType().Name}, with single mode");
-                        OnPlaneComponentsChanged?.Invoke();
-                    }
-                    Debug.Log($"[PlaneComponentContainer] Failed add component: {planeComponent.GetType().Name} because there is component exist with same type");
-
-                    break;
-                }
-                case PlaneComponentQuantityMode.Multiple:
-                    _planeComponents.Add(planeComponent);
-                    Debug.Log($"[PlaneComponentContainer] Added Component: {planeComponent.GetType().Name}, with multiple mode");
-                    OnPlaneComponentsChanged?.Invoke();
-                    break;
+                _planeComponents.Add(Guid.NewGuid(), planeComponent);
             }
         }
 
-        public bool TryGetComponent<T>(out T component) where T : PlaneComponent
+        public Guid AddComponent(PlaneComponent planeComponent)
         {
-            component = _planeComponents.FirstOrDefault(c=>c.GetType() == typeof(T)) as T;
-            return component != null;
+            var id = Guid.NewGuid();
+
+            _planeComponents.Add(id, planeComponent);
+            Debug.Log($"[PlaneComponentContainer] Added Component: {planeComponent.GetType().Name}, with multiple mode");
+            OnPlaneComponentsChanged?.Invoke();
+            return id;
         }
+
+        public bool TryGetComponent<T>(Guid id, out T component)  where T : PlaneComponent
+        {
+            component = null;
+            if (!_planeComponents.TryGetValue(id, out var planeComponent) ||
+                planeComponent is not T planeComponentT) return false;
+            
+            component = planeComponentT;
+            return true;
+
+        }
+        
+        // public bool TryGetComponent(AirplaneComponentType type, out PlaneComponent component)
+        // {
+        //     component = _planeComponents.FirstOrDefault(c=>c.Type == type);
+        //     return component != null;
+        // }
+        
     }
 
     public enum PlaneComponentQuantityMode

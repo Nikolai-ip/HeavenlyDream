@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
 {
-    public class ShakableComponentAttacher: MonoBehaviour
+    public class ShakableComponentAttacher: ComponentAttacher
     {
         [SerializeField] private PointerInteractionListener _interactionListener;
         [SerializeField] private HandShaker _handShaker;
@@ -18,10 +18,10 @@ namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
         [SerializeField] private List<AxisType> _sequenceToFixComponent;
         private Queue<AxisType> _fixPhases = new();
 
-        private FixComponentPhase _fixComponentPhase;
+        private FixLocalPosComponentPhase _fixLocalPosComponentPhase;
         private bool _wingFollowingByMouse;
         private bool _fixProcess;
-        public event Action<List<float>, List<AxisType>> OnComponentAttached; 
+        public override event Action<Vector3, Quaternion> OnComponentAttached; 
 
         private void OnEnable()
         {
@@ -32,9 +32,9 @@ namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
             _interactionListener.onPointerDown.AddListener(StartFixComponentProcess);
         }
         
-        public void Construct(AirplaneModelView airplaneModelView)
+        public override void Construct(AirplaneModelView airplaneModelView)
         {
-            _fixComponentPhase = new FixComponentPhase(
+            _fixLocalPosComponentPhase = new FixLocalPosComponentPhase(
                 _handShaker,
                 airplaneModelView,
                 transform,
@@ -52,23 +52,24 @@ namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
             {
                 _fixPhases.Enqueue(axisType);
             }
-            List<float> axisValues = new();
+            Vector3 resultLocalPos = Vector2.zero;
             while (_fixPhases.Any())
             {
                 var phaseAxisType = _fixPhases.Dequeue();
-                float diffWithRef = await _fixComponentPhase.ProcessPhase(phaseAxisType);
-                axisValues.Add(diffWithRef);
+                Vector3 additiveLocalPos = await _fixLocalPosComponentPhase.ProcessPhase(phaseAxisType);
+                resultLocalPos += additiveLocalPos;
             }
 
             _fixProcess = false;
-            OnComponentAttached?.Invoke(axisValues, _sequenceToFixComponent);
+            OnComponentAttached?.Invoke(resultLocalPos, Quaternion.identity);
         }
     }
 
     public enum AxisType
     {
-        Horizontal,
-        Vertical,
-        Both
+        X,
+        Y,
+        Z,
+        All
     }
 }

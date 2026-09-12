@@ -9,10 +9,10 @@ namespace _Game.Source.Domain.ErrorCalculation
 {
     public class ErrorPlaneEvaluator
     {
-        private readonly Dictionary<Type, IPlaneComponentSimilarityEvaluator<PlaneComponent>> _similarityPlaneComponentsCalculators;
-        private readonly Dictionary<Type, float> _componentWeights;
+        private readonly Dictionary<AirplaneComponentType, IPlaneComponentSimilarityEvaluator<PlaneComponent>> _similarityPlaneComponentsCalculators;
+        private readonly Dictionary<AirplaneComponentType, float> _componentWeights;
 
-        public ErrorPlaneEvaluator(Dictionary<Type, float> componentWeights, Dictionary<Type, IPlaneComponentSimilarityEvaluator<PlaneComponent>> similarityPlaneComponentsCalculators)
+        public ErrorPlaneEvaluator(Dictionary<AirplaneComponentType, float> componentWeights, Dictionary<AirplaneComponentType, IPlaneComponentSimilarityEvaluator<PlaneComponent>> similarityPlaneComponentsCalculators)
         {
             _componentWeights = componentWeights;
             _similarityPlaneComponentsCalculators = similarityPlaneComponentsCalculators;
@@ -23,31 +23,31 @@ namespace _Game.Source.Domain.ErrorCalculation
         /// <returns>Error value [0..1]</returns>
         public ErrorEvaluateResult EvaluateError(PlaneComponentContainer referencePlane, PlaneComponentContainer plane)
 		{
-            float errorPercentage = 0;
-            Dictionary<Type, float> _localErrorsMap = new();
+            float totalError = 0;
+            Dictionary<AirplaneComponentType, float> localErrorsMap = new();
             foreach (var refPlaneComponent in referencePlane.PlaneComponents)
             {
-                var type =  refPlaneComponent.GetType();
+                var type =  refPlaneComponent.Type;
                 if (_similarityPlaneComponentsCalculators.TryGetValue(type,
-                        out var similarityEvaluator) && _componentWeights.TryGetValue(type, out float weight))
+                        out var similarityEvaluator) && _componentWeights.TryGetValue(type, out float errorWeight))
                 {
                     
                     var comparablePlaneComponent = plane.PlaneComponents.
-                        FirstOrDefault(component=> component.GetType() == refPlaneComponent.GetType());
-                    float  similarity = EvaluateSimilarity(comparablePlaneComponent,
+                        FirstOrDefault(component=> component.Type == refPlaneComponent.Type);
+                    float  error = EvaluateError(comparablePlaneComponent,
                         refPlaneComponent, similarityEvaluator);
                     
-                    similarity *= weight;
-                    errorPercentage += similarity;
+                    error *= errorWeight;
+                    totalError += error;
                     
-                    _localErrorsMap.Add(type, similarity);
+                    localErrorsMap.Add(type, error);
                 }
             }
 
-            errorPercentage = Math.Clamp(errorPercentage, 0, 1);
-            return new ErrorEvaluateResult(errorPercentage, _localErrorsMap);
+            totalError = Math.Clamp(totalError, 0, 1);
+            return new ErrorEvaluateResult(totalError, localErrorsMap);
 		}
-        private float EvaluateSimilarity(PlaneComponent refComponent, PlaneComponent comparablePlaneComponent, IPlaneComponentSimilarityEvaluator<PlaneComponent> similarityEvaluator)
+        private float EvaluateError(PlaneComponent refComponent, PlaneComponent comparablePlaneComponent, IPlaneComponentSimilarityEvaluator<PlaneComponent> similarityEvaluator)
         {
             return comparablePlaneComponent != null ? 
                 similarityEvaluator.EvaluateErrorValue(refComponent, comparablePlaneComponent) :
@@ -58,9 +58,9 @@ namespace _Game.Source.Domain.ErrorCalculation
     public struct ErrorEvaluateResult
     {
         public float CommonError { get; set; }
-        public Dictionary<Type, float> LocalErrors { get; set; }
+        public Dictionary<AirplaneComponentType, float> LocalErrors { get; set; }
 
-        public ErrorEvaluateResult(float commonError, Dictionary<Type, float> localErrors)
+        public ErrorEvaluateResult(float commonError, Dictionary<AirplaneComponentType, float> localErrors)
         {
             CommonError = commonError;
             LocalErrors = localErrors;

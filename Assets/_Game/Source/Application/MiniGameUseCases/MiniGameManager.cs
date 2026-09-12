@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using _Game.Source.Common;
 using _Game.Source.Domain.MiniGames;
 using UnityEngine;
+using UnityEngine.Events;
 using Zenject;
 
 namespace _Game.Source.Application.MiniGameUseCases
@@ -12,6 +13,10 @@ namespace _Game.Source.Application.MiniGameUseCases
         private MiniGame _miniGame;
         [SerializeField] private List<ICommandMono> _onMiniGameStartedCommands;
         [SerializeField] private List<ICommandMono> _onMiniGameExitedCommands;
+        
+        public UnityEvent onMiniGameStarted;
+        public UnityEvent onMiniGameExited;
+        
         [Inject]
         public void Construct(MiniGamesContainer container)
         {
@@ -24,12 +29,13 @@ namespace _Game.Source.Application.MiniGameUseCases
         private void OnMiniGameStarted()
         {
             _onMiniGameStartedCommands.ForEach(command=>command.Execute());
+            onMiniGameStarted.Invoke();
         }
 
         public void ExitMiniGame()
         {
             _onMiniGameExitedCommands.ForEach(command=>command.Execute());
-            _miniGame.Exit();
+            onMiniGameExited.Invoke();
         }
     }
 }

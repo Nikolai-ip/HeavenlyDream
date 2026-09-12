@@ -15,9 +15,9 @@ namespace _Game.Source.Domain.ErrorCalculation.PlaneComponentsSimilarityEvaluati
             _absentOfComponentValue = absentOfComponentValue;
         }
 
-        public float EvaluateErrorValue(FuselageComponent rc, FuselageComponent c)
+        public float EvaluateErrorValue(FuselageComponent @ref, FuselageComponent comp)
         {
-            float error = SimilarityValueUtility.CalcError(rc.PolishingDegree, c.PolishingDegree, 
+            float error = SimilarityValueUtility.CalcError(@ref.PolishingDegree, comp.PolishingDegree, 
                 _errorDegree, _maxPolishingDegreeValue);
             return error;
         }
