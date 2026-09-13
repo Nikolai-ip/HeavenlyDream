@@ -6,30 +6,32 @@ using Zenject;
 
 namespace _Game.Source.Application.MiniGameUseCases
 {
-    public class MiniGameComponentAttachController: MonoBehaviour
+    public class MiniGameComponentAttachController: MiniGameController
     {
         [SerializeField] private PlaneComponentAdjuster _planeComponentAdjuster;
         [SerializeField] private ComponentAttacher _componentAttacherPref;
         [SerializeField] private AirplaneModelView _airplaneModelView;
         [SerializeField] private Transform _spawnPoint;
+        [SerializeField] private Transform _space;
         private ComponentAttacher _componentAttacher;
-
-        public virtual void OnMiniGameStart()
+        public override void OnMiniGameStart()
         {
-            _componentAttacher = Instantiate(_componentAttacherPref, _airplaneModelView.transform);
+            base.OnMiniGameStart();
+            _componentAttacher = Instantiate(_componentAttacherPref, _space);
             _componentAttacher.transform.position = _spawnPoint.position;
             _componentAttacher.transform.localRotation = _spawnPoint.localRotation;
             _componentAttacher.Construct(_airplaneModelView);
             _componentAttacher.OnComponentAttached += OnComponentAttached;
         }
 
-        public virtual void OnMiniGameEnd()
+        public override void OnMiniGameEnd()
         {
             _componentAttacher.OnComponentAttached -= OnComponentAttached;
         }
 
         private void OnComponentAttached(Vector3 localPos, Quaternion localRot)
         {
+            base.OnMiniGameEnd();
             _planeComponentAdjuster.FinalLocalPos =  localPos;
             _planeComponentAdjuster.FinalRotation = localRot;
             _planeComponentAdjuster.TryAdd();

@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5155298037628775978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2711046390229788616}
+  - component: {fileID: 2212607362139516846}
+  - component: {fileID: 2191379723950952989}
+  - component: {fileID: 2742132322108365217}
+  m_Layer: 0
+  m_Name: MiniGameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2711046390229788616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155298037628775978}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2212607362139516846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155298037628775978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f4512bf65e4577b70d6d80b1de9d1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ajustedComponentType: 2
+  <FinalLocalPos>k__BackingField: {x: 0, y: 0, z: 0}
+  <FinalRotation>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &2191379723950952989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155298037628775978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bc6773d7d5d4f8dbe0ce0fd2847d2b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miniGameEnvironmentView: {fileID: 2742132322108365217}
+  _planeComponentAdjuster: {fileID: 2212607362139516846}
+  _componentAttacherPref: {fileID: 6948555803499437135, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
+  _airplaneModelView: {fileID: 0}
+  _spawnPoint: {fileID: 0}
+--- !u!114 &2742132322108365217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155298037628775978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4501bad5d04420b811ca33d1d865351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showPlaneAnimation: {fileID: 0}
+  _hidePlaneAnimation: {fileID: 0}
+  _shadowPanel: {fileID: 0}
