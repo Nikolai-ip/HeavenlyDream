@@ -1,19 +1,18 @@
-using _Game.Source.Domain.Plane.Component;
 using _Game.Source.Presenter;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
+namespace _Game.Source.Application.MiniGameUseCases.Common
 {
     public class FixLocalPosComponentPhase
     {
-        private HandShaker _handShaker;
+        private ShakablePointerFollower _handShaker;
         private readonly AirplaneModelView _airplaneView;
         private readonly Transform _fixableComponentTr;
         private readonly float _distanceToAbleFix;
 
 
-        public FixLocalPosComponentPhase(HandShaker handShaker, AirplaneModelView airplaneView, Transform fixableComponentTr, float distanceToAbleFix)
+        public FixLocalPosComponentPhase(ShakablePointerFollower handShaker, AirplaneModelView airplaneView, Transform fixableComponentTr, float distanceToAbleFix)
         {
             _handShaker = handShaker;
             _airplaneView = airplaneView;
@@ -55,5 +54,12 @@ namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
             return Vector2.Distance(_airplaneView.Center, _fixableComponentTr.position)
                    <= _distanceToAbleFix;
         }
+    }
+    public enum AxisType
+    {
+        X,
+        Y,
+        Z,
+        All
     }
 }

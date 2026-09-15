@@ -1,7 +1,7 @@
 using _Game.Source.Application.Airplane.Adders;
 using UnityEngine;
 
-namespace _Game.Source.Application.MiniGameUseCases
+namespace _Game.Source.Application.MiniGameUseCases.ConcreteMiniGames.PolishRail
 {
     public class FuselageMiniGameController: MiniGameController
     {

@@ -194,12 +194,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134f15c937c9437390341649bf888ca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playOnAwake: 1
+  _playOnAwake: 0
   _radius: 1
   _speed: 0.85
   _smooth: 0.5
-  _shakingHorizontal: 0
-  _shakingVertical: 0
+  _shakingHorizontal: 1
+  _shakingVertical: 1
 --- !u!114 &6948555803499437135
 MonoBehaviour:
   m_ObjectHideFlags: 0

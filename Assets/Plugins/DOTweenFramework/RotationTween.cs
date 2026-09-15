@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Plugins.DOTweenFramework
 {
-    public class Rotator: TweenAnimation
+    public class RotationTween: TweenAnimation
     {
         [SerializeField] private Transform _tr;
         [SerializeField] private RotateAnimationParams _animationParams;

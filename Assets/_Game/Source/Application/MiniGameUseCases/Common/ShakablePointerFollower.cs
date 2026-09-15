@@ -1,11 +1,10 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace _Game.Source.Application.MiniGameUseCases
+namespace _Game.Source.Application.MiniGameUseCases.Common
 {
-    public class HandShaker : MonoBehaviour
+    public class ShakablePointerFollower : MonoBehaviour
     {
         [SerializeField] private bool _playOnAwake;
         [SerializeField] private float _radius = 20f;
@@ -20,12 +19,7 @@ namespace _Game.Source.Application.MiniGameUseCases
         private Vector3 _p2;
         private Vector3 _p3;
         private Vector3 _desiredPosition;
-
-        private void Start()
-        {
-            if (_playOnAwake)
-                StartShaking();
-        }
+        private Vector3 _target;
 
         public void SetFreezeAxis(bool shakingHorizontal, bool shakingVertical)
         {
@@ -33,10 +27,10 @@ namespace _Game.Source.Application.MiniGameUseCases
             _shakingVertical = shakingVertical;
         }
 
-        public void StartShaking()
+        public void StartShaking(Transform fuselage, float size)
         {
             StopShaking();
-            _shakingCoroutine = StartCoroutine(Shaking());
+            _shakingCoroutine = StartCoroutine(Shaking(fuselage, size));
         }
 
         public void StopShaking()
@@ -44,18 +38,19 @@ namespace _Game.Source.Application.MiniGameUseCases
             if (_shakingCoroutine != null)
                 StopCoroutine(_shakingCoroutine);
         }
-
-        private IEnumerator Shaking()
+        
+        private IEnumerator Shaking(Transform fuselage, float size)
         {
-            
-
             float t = 0f;
-
             GenerateBezier(out _p0, out _p1, out _p2, out _p3);
-
+            _target = fuselage.position;
+            Vector3 startPos = transform.position;
+            startPos.z = fuselage.position.z;
+            transform.position = startPos;
+            
             while (true)
             {
-                var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                _target = ProjectMouseOnFuselage(fuselage, size,Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
                 t += Time.deltaTime * _speed;
 
@@ -69,15 +64,30 @@ namespace _Game.Source.Application.MiniGameUseCases
                         out _p3);
                 }
                 Vector3 offset = CubicBezier(_p0, _p1, _p2, _p3, t);
-                offset = new Vector3(_shakingHorizontal? offset.x: 0, _shakingVertical? offset.y: 0);
-                
-                _desiredPosition = target + offset;
-                _desiredPosition.z = 0;
+                offset = new Vector3(_shakingHorizontal? offset.x: 0, _shakingVertical? offset.y: 0)
+                {
+                    z = 0
+                };
+
+                _desiredPosition = _target + offset;
+                _desiredPosition.z = fuselage.position.z;
+                Debug.Log(fuselage.position.z);
                 transform.position += (_desiredPosition-transform.position)
                                       * (1f - Mathf.Exp(-_smooth * Time.deltaTime)); 
                     
                 yield return null;
             }
+        }
+
+        private Vector3 ProjectMouseOnFuselage(Transform fuselage, float size, Vector3 m)
+        {
+            Vector3 s = fuselage.position + fuselage.right * (size * 0.5f); 
+            Vector3 e = fuselage.position - fuselage.right * (size * 0.5f);
+            Vector3 se = s - e;
+            Vector3 em = m - e;
+            float t = Vector3.Dot(em, se)/Vector3.Dot(se, se);
+            t = Mathf.Clamp01(t);
+            return e + t * se;
         }
 
         private void GenerateBezier(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
@@ -133,6 +143,9 @@ namespace _Game.Source.Application.MiniGameUseCases
             Gizmos.DrawWireSphere(_p3, radius);
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(_desiredPosition, radius);
+            
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(_target, 0.2f);
         }
     }
 }

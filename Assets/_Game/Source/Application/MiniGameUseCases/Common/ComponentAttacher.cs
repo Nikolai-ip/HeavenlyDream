@@ -2,7 +2,7 @@ using System;
 using _Game.Source.Presenter;
 using UnityEngine;
 
-namespace _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame
+namespace _Game.Source.Application.MiniGameUseCases.Common
 {
     public abstract class ComponentAttacher: MonoBehaviour
     {

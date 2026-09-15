@@ -1,10 +1,8 @@
 using _Game.Source.Application.Airplane.Adders;
-using _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame;
 using _Game.Source.Presenter;
 using UnityEngine;
-using Zenject;
 
-namespace _Game.Source.Application.MiniGameUseCases
+namespace _Game.Source.Application.MiniGameUseCases.Common
 {
     public class MiniGameComponentAttachController: MiniGameController
     {
@@ -35,7 +33,7 @@ namespace _Game.Source.Application.MiniGameUseCases
             _planeComponentAdjuster.FinalLocalPos =  localPos;
             _planeComponentAdjuster.FinalRotation = localRot;
             _planeComponentAdjuster.TryAdd();
-            Destroy(_componentAttacher);
+            Destroy(_componentAttacher.gameObject);
             _componentAttacher = null;
         }
 

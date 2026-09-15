@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using _Game.Source.Application.MiniGameUseCases.AttackWingMiniGame;
+using _Game.Source.Application.MiniGameUseCases.Common;
 using _Game.Source.Domain.Plane;
 using _Game.Source.Domain.Plane.Component;
 using UnityEngine;
@@ -16,6 +16,8 @@ namespace _Game.Source.Presenter
         [SerializeField] private PlaneComponentObjects _componentObjects;
         
         public Vector2 Center => transform.position;
+        public Transform FuselageTr => _componentObjects.Fuselage;
+        public float FuselageSize => _componentObjects.Fuselage.GetComponent<BoxCollider>().bounds.size.y;
 
         [Inject]
         public void Construct(PlaneComponentContainer planeComponentContainer)
