@@ -27,10 +27,10 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             _shakingVertical = shakingVertical;
         }
 
-        public void StartShaking(Transform surface, float size)
+        public void StartFollowing(AirplaneSurface surface)
         {
             StopShaking();
-            _shakingCoroutine = StartCoroutine(Shaking(surface, size));
+            _shakingCoroutine = StartCoroutine(Follow(surface));
         }
 
         public void StopShaking()
@@ -39,18 +39,17 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                 StopCoroutine(_shakingCoroutine);
         }
         
-        private IEnumerator Shaking(Transform surface, float size)
+        private IEnumerator Follow(AirplaneSurface surface)
         {
             float t = 0f;
             GenerateBezier(out _p0, out _p1, out _p2, out _p3);
-            _target = surface.position;
+            _target = surface.Center;
             Vector3 startPos = transform.position;
-            startPos.z = surface.position.z;
             transform.position = startPos;
             
             while (true)
             {
-                _target = ProjectMouseOnFuselage(surface, size,Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                _target = surface.Project(Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
                 t += Time.deltaTime * _speed;
 
@@ -69,11 +68,11 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                     z = 0
                 };
 
-                _desiredPosition = _target + offset;
-                _desiredPosition.z = surface.position.z;
-                Debug.Log(surface.position.z);
-                transform.position += (_desiredPosition-transform.position)
-                                      * (1f - Mathf.Exp(-_smooth * Time.deltaTime)); 
+                //_desiredPosition = _target + offset;
+                _desiredPosition = _target;
+                transform.position = _desiredPosition;
+                // transform.position += (_desiredPosition-transform.position)
+                //                       * (1f - Mathf.Exp(-_smooth * Time.deltaTime)); 
                     
                 yield return null;
             }

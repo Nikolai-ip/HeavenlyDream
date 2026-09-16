@@ -53,7 +53,7 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         {
             yield return null; //Wait for input handled
             
-            _handShaker.StartShaking(_airplaneModelView.FuselageTr, _airplaneModelView.FuselageSize);
+          //  _handShaker.StartFollowing(_airplaneModelView.FuselageTr, _airplaneModelView.FuselageSize);
             while (true)
             {
                 if (Input.GetMouseButtonDown(0) && IsNearToAttachPoint())
