@@ -13,6 +13,7 @@ namespace _Game.Source.Application.Airplane.Adders
         [SerializeField] private AirplaneComponentType _ajustedComponentType;
         [field: SerializeField] [field:ReadOnly] public Vector3 FinalLocalPos { private get; set; }
         [field: SerializeField] [field:ReadOnly] public Quaternion FinalRotation { private get; set; }
+        public AirplaneComponentType AirplaneComponentType => _ajustedComponentType;
         protected Guid PlaneComponentId; 
         public virtual void TryAdd()
         {

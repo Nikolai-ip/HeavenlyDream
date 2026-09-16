@@ -14,7 +14,6 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         [SerializeField] private PointerInteractionListener _interactionListener;
         [SerializeField] private ShakablePointerFollower _handShaker;
         [SerializeField] private float _distanceToAbleFix;
-        [SerializeField] private AirplaneComponentType _airplaneComponentType;
         private AirplaneModelView _airplaneModelView;
 
         private bool _wingFollowingByMouse;
@@ -27,10 +26,10 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         }
         private void OnDisable()
         {
-            _interactionListener.onPointerUp.AddListener(StartFixComponentProcess);
+            _interactionListener.onPointerUp.RemoveListener(StartFixComponentProcess);
         }
         
-        public override void Construct(AirplaneModelView airplaneModelView)
+        public override void Construct(AirplaneModelView airplaneModelView, AirplaneComponentType componentType)
         {
             _airplaneModelView = airplaneModelView;
         }

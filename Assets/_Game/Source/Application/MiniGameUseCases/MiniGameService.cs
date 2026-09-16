@@ -16,7 +16,6 @@ namespace _Game.Source.Application.MiniGameUseCases
         private MiniGameLaunchValidator _miniGameLaunchValidator;
         private Dictionary<MiniGameType, MiniGameController> _miniGameControllers;
 
-        private bool _miniGameRunning;
         private MiniGameController _currentMiniGameController;
         private Action _onExitCallBack;
 
@@ -31,7 +30,7 @@ namespace _Game.Source.Application.MiniGameUseCases
 
         public void RunMiniGame(MiniGameType miniGameType, Action onExitCallBack = null)
         {
-            if (_miniGameRunning)
+            if (_currentMiniGameController != null)
                 return;
             
             var validatorResult = _miniGameLaunchValidator.MiniGameCanBeLaunched(miniGameType);
@@ -40,6 +39,7 @@ namespace _Game.Source.Application.MiniGameUseCases
                 if (_miniGameControllers.TryGetValue(miniGameType, out _currentMiniGameController))
                 {
                     _onExitCallBack = onExitCallBack;
+                    _currentMiniGameController.StateChanged += OnCurrentMiniGameStateChanged;
                     MiniGameLogger.Instance.Log(()=>$"Start minigame {miniGameType}");
                     _currentMiniGameController.OnMiniGameStart();
                 }
@@ -60,9 +60,16 @@ namespace _Game.Source.Application.MiniGameUseCases
 
         private void TryFinishMiniGame()
         {
-            _currentMiniGameController.OnMiniGameEnd();
+            _currentMiniGameController?.OnMiniGameEnd();
+        }
+
+        private void OnCurrentMiniGameStateChanged(MiniGameState state)
+        {
+            if (state != MiniGameState.Completed && state != MiniGameState.Cancelled)
+                return;
+
+            _currentMiniGameController.StateChanged -= OnCurrentMiniGameStateChanged;
             _currentMiniGameController = null;
-            _miniGameRunning = false;
             _onExitCallBack?.Invoke();
             _onExitCallBack = null;
         }

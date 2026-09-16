@@ -8,10 +8,20 @@ namespace _Game.Source.Application.MiniGameUseCases.ConcreteMiniGames.PolishRail
         [SerializeField] private FuselageComponentAdjuster _fuselageComponentAdjuster;
         // todo: Здесь написать логику передачи значения PolishDegree в аджастер
 
-        public override void OnMiniGameEnd()
+        private void OnEnable()
         {
-            base.OnMiniGameEnd();
-            _fuselageComponentAdjuster.TryAdjustComponentParams();
+            StateChanged += OnStateChanged;
+        }
+
+        private void OnDisable()
+        {
+            StateChanged -= OnStateChanged;
+        }
+
+        private void OnStateChanged(MiniGameState state)
+        {
+            if (state == MiniGameState.Completed)
+                _fuselageComponentAdjuster.TryAdjustComponentParams();
         }
     }
 }

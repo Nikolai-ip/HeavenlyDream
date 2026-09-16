@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _Game.Source.Application;
 using _Game.Source.Application.MiniGameUseCases.Common;
 using _Game.Source.Domain.Plane;
 using _Game.Source.Domain.Plane.Component;
@@ -13,6 +14,7 @@ namespace _Game.Source.Presenter
     {
         private PlaneComponentContainer _planeComponentContainer;
         private Dictionary<AirplaneComponentType, Action<PlaneComponent>> _adjustViewComponentActions;
+        [SerializeField] private AirplaneRotator _airplaneRotator;
         [SerializeField] private PlaneComponentObjects _componentObjects;
         
         public Vector2 Center => transform.position;
@@ -93,10 +95,11 @@ namespace _Game.Source.Presenter
             weightTr.gameObject.SetActive(true);
             weightTr.localScale = new Vector3(weightTr.localScale.x, weight.WeightAmount, weight.WeightAmount);
         }
+        
 
-        public void RotateForMiniGame(AxisType axisType)
+        public void Rotate(RotationType rotation)
         {
-            throw new NotImplementedException();
+            _airplaneRotator.Rotate(rotation);
         }
     }
 

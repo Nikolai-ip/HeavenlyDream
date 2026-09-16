@@ -27,10 +27,10 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             _shakingVertical = shakingVertical;
         }
 
-        public void StartShaking(Transform fuselage, float size)
+        public void StartShaking(Transform surface, float size)
         {
             StopShaking();
-            _shakingCoroutine = StartCoroutine(Shaking(fuselage, size));
+            _shakingCoroutine = StartCoroutine(Shaking(surface, size));
         }
 
         public void StopShaking()
@@ -39,18 +39,18 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                 StopCoroutine(_shakingCoroutine);
         }
         
-        private IEnumerator Shaking(Transform fuselage, float size)
+        private IEnumerator Shaking(Transform surface, float size)
         {
             float t = 0f;
             GenerateBezier(out _p0, out _p1, out _p2, out _p3);
-            _target = fuselage.position;
+            _target = surface.position;
             Vector3 startPos = transform.position;
-            startPos.z = fuselage.position.z;
+            startPos.z = surface.position.z;
             transform.position = startPos;
             
             while (true)
             {
-                _target = ProjectMouseOnFuselage(fuselage, size,Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                _target = ProjectMouseOnFuselage(surface, size,Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
                 t += Time.deltaTime * _speed;
 
@@ -70,8 +70,8 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                 };
 
                 _desiredPosition = _target + offset;
-                _desiredPosition.z = fuselage.position.z;
-                Debug.Log(fuselage.position.z);
+                _desiredPosition.z = surface.position.z;
+                Debug.Log(surface.position.z);
                 transform.position += (_desiredPosition-transform.position)
                                       * (1f - Mathf.Exp(-_smooth * Time.deltaTime)); 
                     
