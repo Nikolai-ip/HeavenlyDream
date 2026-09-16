@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Game.Source.Application;
-using _Game.Source.Application.MiniGameUseCases.Common;
 using _Game.Source.Domain.Plane;
 using _Game.Source.Domain.Plane.Component;
+using _Game.Source.Infrastructure;
 using UnityEngine;
 using Zenject;
 
@@ -15,12 +15,9 @@ namespace _Game.Source.Presenter
         private PlaneComponentContainer _planeComponentContainer;
         private Dictionary<AirplaneComponentType, Action<PlaneComponent>> _adjustViewComponentActions;
         [SerializeField] private AirplaneRotator _airplaneRotator;
-        [SerializeField] private PlaneComponentObjects _componentObjects;
+        [SerializeField] private DictionaryInspector<AirplaneComponentType, AirplaneSurface> _componentObjectsInspector;
+        private Dictionary<AirplaneComponentType, AirplaneSurface> _componentObjects;
         
-        public Vector2 Center => transform.position;
-        public Transform FuselageTr => _componentObjects.Fuselage;
-        public float FuselageSize => _componentObjects.Fuselage.GetComponent<BoxCollider>().bounds.size.y;
-
         [Inject]
         public void Construct(PlaneComponentContainer planeComponentContainer)
         {
@@ -33,6 +30,12 @@ namespace _Game.Source.Presenter
                 {AirplaneComponentType.Fin, AdjustComponentView},
                 {AirplaneComponentType.Balancing, AdjustBalancingWeightView}
             };
+            _componentObjects = _componentObjectsInspector.GetDictionary;
+        }
+
+        public AirplaneSurface GetSurface(AirplaneComponentType componentType)
+        {
+            return _componentObjects[componentType];
         }
         
         private void OnEnable() => _planeComponentContainer.OnPlaneComponentsChanged += UpdateView;
@@ -46,7 +49,8 @@ namespace _Game.Source.Presenter
 
         private void UpdateView()
         {
-            _componentObjects.DisableAll();
+            DisableAllComponents();
+
             foreach (var planeComponent in _planeComponentContainer.PlaneComponents)
             {
                 if (_adjustViewComponentActions.TryGetValue( planeComponent.Type, out var adjustComponentView))
@@ -59,65 +63,36 @@ namespace _Game.Source.Presenter
                 }
             }
         }
+
+        private void DisableAllComponents()
+        {
+            _componentObjects.Values.ToList().ForEach(t => t.gameObject.SetActive(false));
+        }
+
         private void AdjustFuselageView(PlaneComponent component)
         {
-            var fuselage = (FuselageComponent)component;   
-            _componentObjects.Fuselage.gameObject.SetActive(true);
+            _componentObjects[component.Type].gameObject.SetActive(true);
             
         }
         private void AdjustComponentView(PlaneComponent component)
         {
-            Transform tr = GetPlaneComponentTr(component.Type);
+            Transform tr = _componentObjects[component.Type].transform;
             tr.gameObject.SetActive(true);
             tr.localPosition = component.LocalPosition;
             tr.localRotation = component.LocalRotation;
         }
-
-        private Transform GetPlaneComponentTr(AirplaneComponentType componentType)
-        {
-            switch (componentType)
-            {
-                case AirplaneComponentType.Wing:
-                    return _componentObjects.Wing;
-                case AirplaneComponentType.Stabilizer:
-                    return _componentObjects.Stabilizer;
-                case AirplaneComponentType.Fin:
-                    return _componentObjects.AirplaneFin;
-            }
-            throw new ArgumentOutOfRangeException(nameof(componentType));
-        }
-
-
+        
         private void AdjustBalancingWeightView(PlaneComponent component)
         {
-            var weightTr = _componentObjects.BalancingWeight;
             var weight = (BalancingWeightComponent)component;
+            var weightTr = _componentObjects[AirplaneComponentType.Balancing].transform;
             weightTr.gameObject.SetActive(true);
             weightTr.localScale = new Vector3(weightTr.localScale.x, weight.WeightAmount, weight.WeightAmount);
         }
-        
 
         public void Rotate(RotationType rotation)
         {
             _airplaneRotator.Rotate(rotation);
-        }
-    }
-
-    [Serializable]
-    public struct PlaneComponentObjects
-    {
-        [SerializeField] public Transform Fuselage;
-        [SerializeField] public Transform Wing;
-        [SerializeField] public Transform Stabilizer;
-        [SerializeField] public Transform AirplaneFin;
-        [SerializeField] public Transform BalancingWeight;
-        public void DisableAll()
-        {
-            Fuselage.gameObject.SetActive(false);
-            Wing.gameObject.SetActive(false);
-            Stabilizer.gameObject.SetActive(false);
-            AirplaneFin.gameObject.SetActive(false);
-            BalancingWeight.gameObject.SetActive(false);
         }
     }
 }

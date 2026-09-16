@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Game.Source.Application;
 using UnityEngine;
 
 namespace _Game.Source.Temp
@@ -10,16 +11,15 @@ namespace _Game.Source.Temp
         [SerializeField] private MeshRenderer _meshRenderer;
         [SerializeField] private Camera _camera;
         [SerializeField] private LayerMask _layerMask;
+        [SerializeField] private AirplaneSurface _surface;
         
         private Vector3 _target;
 
         private void Update()
         {
-            var mouseRay = _camera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(mouseRay, out hit,  Mathf.Infinity, _layerMask))
+            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+            if (_surface.TryProject(ray, out var hit))
             {
-                Debug.Log(hit.collider.name);
                 _target = hit.point;
             }
         }

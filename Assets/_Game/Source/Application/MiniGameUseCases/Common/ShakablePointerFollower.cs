@@ -12,6 +12,7 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         [SerializeField] private float _smooth = 0.5f;
         [SerializeField] private bool _shakingHorizontal;
         [SerializeField] private bool _shakingVertical;
+        [SerializeField] private float _surfaceOffset = 0.02f;
 
         private Coroutine _shakingCoroutine;
         private Vector3 _p0;
@@ -20,6 +21,12 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         private Vector3 _p3;
         private Vector3 _desiredPosition;
         private Vector3 _target;
+        private Camera _projectionCamera;
+
+        private void Start()
+        {
+            _projectionCamera = Camera.main;
+        }
 
         public void SetFreezeAxis(bool shakingHorizontal, bool shakingVertical)
         {
@@ -44,12 +51,14 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             float t = 0f;
             GenerateBezier(out _p0, out _p1, out _p2, out _p3);
             _target = surface.Center;
-            Vector3 startPos = transform.position;
-            transform.position = startPos;
             
             while (true)
             {
-                _target = surface.Project(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                Ray pointerRay = _projectionCamera.ScreenPointToRay(Input.mousePosition);
+                surface.Project(pointerRay, out _target, out _);
+
+                Vector3 planeNormal = surface.Transform.forward.normalized;
+                Vector3 planeOrigin = surface.Center + planeNormal * _surfaceOffset;
 
                 t += Time.deltaTime * _speed;
 
@@ -63,30 +72,35 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                         out _p3);
                 }
                 Vector3 offset = CubicBezier(_p0, _p1, _p2, _p3, t);
-                offset = new Vector3(_shakingHorizontal? offset.x: 0, _shakingVertical? offset.y: 0)
-                {
-                    z = 0
-                };
+                offset = new Vector3(
+                    _shakingHorizontal ? offset.x : 0,
+                    _shakingVertical ? offset.y : 0,
+                    0);
 
-                //_desiredPosition = _target + offset;
-                _desiredPosition = _target;
-                transform.position = _desiredPosition;
-                // transform.position += (_desiredPosition-transform.position)
-                //                       * (1f - Mathf.Exp(-_smooth * Time.deltaTime)); 
+                Vector3 tangent = Vector3.ProjectOnPlane(
+                    _projectionCamera.transform.right,
+                    planeNormal).normalized;
+
+                if (tangent.sqrMagnitude < Mathf.Epsilon)
+                {
+                    tangent = Vector3.ProjectOnPlane(
+                        _projectionCamera.transform.up,
+                        planeNormal).normalized;
+                }
+
+                Vector3 bitangent = Vector3.Cross(planeNormal, tangent).normalized;
+                Vector3 shakeOffset = tangent * offset.x + bitangent * offset.y;
+                Vector3 candidatePosition = _target + shakeOffset;
+                _desiredPosition = planeOrigin +
+                                   Vector3.ProjectOnPlane(
+                                       candidatePosition - planeOrigin,
+                                       planeNormal);
+
+                transform.position += (_desiredPosition - transform.position)
+                                      * (1f - Mathf.Exp(-_smooth * Time.deltaTime));
                     
                 yield return null;
             }
-        }
-
-        private Vector3 ProjectMouseOnFuselage(Transform fuselage, float size, Vector3 m)
-        {
-            Vector3 s = fuselage.position + fuselage.right * (size * 0.5f); 
-            Vector3 e = fuselage.position - fuselage.right * (size * 0.5f);
-            Vector3 se = s - e;
-            Vector3 em = m - e;
-            float t = Vector3.Dot(em, se)/Vector3.Dot(se, se);
-            t = Mathf.Clamp01(t);
-            return e + t * se;
         }
 
         private void GenerateBezier(out Vector3 p0, out Vector3 p1, out Vector3 p2, out Vector3 p3)
