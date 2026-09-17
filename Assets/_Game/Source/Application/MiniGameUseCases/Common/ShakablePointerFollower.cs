@@ -10,8 +10,6 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         [SerializeField] private float _radius = 20f;
         [SerializeField] private float _speed = 1f;
         [SerializeField] private float _smooth = 0.5f;
-        [SerializeField] private bool _shakingHorizontal;
-        [SerializeField] private bool _shakingVertical;
         [SerializeField] private float _surfaceOffset = 0.02f;
 
         private Coroutine _shakingCoroutine;
@@ -28,16 +26,10 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             _projectionCamera = Camera.main;
         }
 
-        public void SetFreezeAxis(bool shakingHorizontal, bool shakingVertical)
-        {
-            _shakingHorizontal = shakingHorizontal;
-            _shakingVertical = shakingVertical;
-        }
-
-        public void StartFollowing(AirplaneSurface surface)
+        public void StartFollowing(AirplaneSurface surface, int surfaceAttachPointIndex)
         {
             StopShaking();
-            _shakingCoroutine = StartCoroutine(Follow(surface));
+            _shakingCoroutine = StartCoroutine(Follow(surface, surfaceAttachPointIndex));
         }
 
         public void StopShaking()
@@ -46,19 +38,18 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                 StopCoroutine(_shakingCoroutine);
         }
         
-        private IEnumerator Follow(AirplaneSurface surface)
+        private IEnumerator Follow(AirplaneSurface surface, int attachPointIndex)
         {
             float t = 0f;
             GenerateBezier(out _p0, out _p1, out _p2, out _p3);
             _target = surface.Center;
+            Transform attachPoint = surface.GetAttachPoint(attachPointIndex);
             
             while (true)
             {
                 Ray pointerRay = _projectionCamera.ScreenPointToRay(Input.mousePosition);
                 surface.Project(pointerRay, out _target, out _);
 
-                Vector3 planeNormal = surface.Transform.forward.normalized;
-                Vector3 planeOrigin = surface.Center + planeNormal * _surfaceOffset;
 
                 t += Time.deltaTime * _speed;
 
@@ -72,29 +63,18 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                         out _p3);
                 }
                 Vector3 offset = CubicBezier(_p0, _p1, _p2, _p3, t);
-                offset = new Vector3(
-                    _shakingHorizontal ? offset.x : 0,
-                    _shakingVertical ? offset.y : 0,
-                    0);
 
-                Vector3 tangent = Vector3.ProjectOnPlane(
-                    _projectionCamera.transform.right,
-                    planeNormal).normalized;
-
-                if (tangent.sqrMagnitude < Mathf.Epsilon)
-                {
-                    tangent = Vector3.ProjectOnPlane(
-                        _projectionCamera.transform.up,
-                        planeNormal).normalized;
-                }
-
-                Vector3 bitangent = Vector3.Cross(planeNormal, tangent).normalized;
+                Vector3 tangent = attachPoint.forward;
+                Vector3 bitangent = attachPoint.right;
+                Vector3 planeNormal = attachPoint.up;
+                
                 Vector3 shakeOffset = tangent * offset.x + bitangent * offset.y;
                 Vector3 candidatePosition = _target + shakeOffset;
-                _desiredPosition = planeOrigin +
-                                   Vector3.ProjectOnPlane(
-                                       candidatePosition - planeOrigin,
-                                       planeNormal);
+                
+                _desiredPosition =  attachPoint.position +
+                                    Vector3.ProjectOnPlane(
+                                        candidatePosition - attachPoint.position,
+                                        planeNormal);
 
                 transform.position += (_desiredPosition - transform.position)
                                       * (1f - Mathf.Exp(-_smooth * Time.deltaTime));

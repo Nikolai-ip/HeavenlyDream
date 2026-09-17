@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Game.Source.Application
 {
     public class AirplaneSurface: MonoBehaviour
     {
+        [SerializeField] private List<Transform> _attachPoints;
         private Collider _collider;
         private Camera _camera;
 
@@ -14,19 +16,13 @@ namespace _Game.Source.Application
         {
             _collider = GetComponent<Collider>();
             _camera = Camera.main;
-
-            if (_collider == null)
-            {
-                Debug.LogError($"{nameof(AirplaneSurface)} requires a 3D Collider.", this);
-                enabled = false;
-            }
         }
 
         public bool TryProject(Ray ray, out RaycastHit hit)
         {
             hit = default;
-            float maxDistance = _camera != null ? _camera.farClipPlane : Mathf.Infinity;
-            return _collider != null && _collider.Raycast(ray, out hit, maxDistance);
+            float maxDistance = _camera.farClipPlane;
+            return _collider.Raycast(ray, out hit, maxDistance);
         }
 
         public void Project(Ray ray, out Vector3 point, out Vector3 normal)
@@ -55,6 +51,11 @@ namespace _Game.Source.Application
             normal = normalDirection.sqrMagnitude > Mathf.Epsilon
                 ? normalDirection.normalized
                 : Transform.forward;
+        }
+
+        public Transform GetAttachPoint(int attachPointIndex)
+        {
+            return _attachPoints[attachPointIndex];
         }
     }
 }

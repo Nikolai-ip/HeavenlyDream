@@ -16,13 +16,13 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         protected override void OnEnter()
         {
             _componentAttacher = Instantiate(_componentAttacherPrefab, _space);
-            _componentAttacher.transform.position = _spawnPoint.position;
-            _componentAttacher.transform.localRotation = _spawnPoint.localRotation;
             _componentAttacher.Construct(
                 AirplaneModelView,
-                _planeComponentAdjuster.AirplaneComponentType);
+                _planeComponentAdjuster.AirplaneComponentType,
+                _spawnPoint.position);
             _componentAttacher.OnComponentAttached += OnComponentAttached;
         }
+        
 
         protected override void OnComplete(MiniGameResult result)
         {

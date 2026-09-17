@@ -9,6 +9,6 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
     {
         public abstract event Action<Vector3, Quaternion> OnComponentAttached;
 
-        public abstract void Construct(AirplaneModelView airplaneModelView, AirplaneComponentType componentType);
+        public abstract void Construct(AirplaneModelView airplaneModelView, AirplaneComponentType componentType, Vector3 spawnPosition);
     }
 }

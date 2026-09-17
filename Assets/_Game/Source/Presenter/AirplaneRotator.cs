@@ -1,3 +1,4 @@
+using System;
 using _Game.Source.Application;
 using DG.Tweening;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace _Game.Source.Presenter
         [SerializeField] private Vector3 _side = new Vector3(0,180,0);
         [SerializeField] private Vector3 _front = new Vector3(0,90,0);
 
-        public void Rotate(RotationType rotation)
+        public void Rotate(RotationType rotation, Action callback)
         {
             _rotationTween?.Kill();
             
@@ -31,7 +32,7 @@ namespace _Game.Source.Presenter
                     target = Quaternion.Euler(_front);
                     break;
             }
-            _rotationTween = _airplane.DOLocalRotateQuaternion(target, _rotationDuration).SetEase(_rotationEase);
+            _rotationTween = _airplane.DOLocalRotateQuaternion(target, _rotationDuration).SetEase(_rotationEase).OnComplete(()=>callback?.Invoke());
         }
     }
 }

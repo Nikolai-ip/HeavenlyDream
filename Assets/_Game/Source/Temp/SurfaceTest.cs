@@ -1,56 +1,28 @@
-using System;
-using System.Collections.Generic;
-using _Game.Source.Application;
+
+using _Game.Source.Application.MiniGameUseCases.Common;
 using UnityEngine;
 
 namespace _Game.Source.Temp
 {
     public class SurfaceTest: MonoBehaviour
     {
-        [SerializeField] private float _radius;
-        [SerializeField] private MeshRenderer _meshRenderer;
-        [SerializeField] private Camera _camera;
-        [SerializeField] private LayerMask _layerMask;
-        [SerializeField] private AirplaneSurface _surface;
-        
-        private Vector3 _target;
+        [SerializeField] private Transform _origin;
+        [SerializeField] private DirectionType _relativeDirection;
 
         private void Update()
         {
-            Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-            if (_surface.TryProject(ray, out var hit))
+            Vector3 dir = Vector3.zero;
+            switch (_relativeDirection)
             {
-                _target = hit.point;
+                case DirectionType.Forward: dir = _origin.forward;
+                    break;
+                case DirectionType.Right: dir = _origin.right;
+                    break;
+                case DirectionType.Up: dir = _origin.up;
+                    break;
             }
-        }
 
-        private void OnDrawGizmos()
-        {
-            Gizmos.DrawSphere(_meshRenderer.localBounds.center, _radius);
-            
-            Vector3 min = _meshRenderer.localBounds.min;
-            Vector3 max = _meshRenderer.localBounds.max;
-            List<Vector3> vertices = new()
-            {
-                min,
-                new Vector3(max.x, min.y, max.z),
-                new Vector3(min.x, min.y, max.z),
-                new Vector3(max.x, min.y, min.z),
-                
-                max,
-                new Vector3(max.x, max.y, max.z),
-                new Vector3(min.x, max.y, max.z),
-                new Vector3(max.x, max.y, min.z),
-            };
-            
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                Gizmos.DrawSphere(
-                    _meshRenderer.transform.TransformPoint(vertices[i]), _radius);
-            }
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawSphere(_target, _radius);
+            transform.forward = dir;
         }
     }
 }

@@ -20,13 +20,12 @@ namespace _Game.Source.Application.MiniGameUseCases
                 return;
 
             IsActive = true;
-            ApplyView();
-            OnEnter();
+            ApplyView(OnEnter);
         }
 
-        protected virtual void ApplyView()
+        protected virtual void ApplyView(Action callback)
         {
-            AirplaneModelView.Rotate(_rotation);
+            AirplaneModelView.Rotate(_rotation, callback);
         }
 
         public void Tick()

@@ -15,6 +15,8 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         [SerializeField] private PointerInteractionListenerBase _interactionListener;
         [SerializeField] private ShakablePointerFollower _handShaker;
         [SerializeField] private float _distanceToAbleFix;
+        [SerializeField] private DirectionType _relativeToSurface;
+        [SerializeField] private int _surfaceAttachPointIndex;
         private AirplaneModelView _airplaneModelView;
 
         private bool _wingFollowingByMouse;
@@ -31,10 +33,11 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             _interactionListener.onPointerUp.RemoveListener(StartFixComponentProcess);
         }
         
-        public override void Construct(AirplaneModelView airplaneModelView, AirplaneComponentType componentType)
+        public override void Construct(AirplaneModelView airplaneModelView, AirplaneComponentType componentType, Vector3 spawnPosition)
         {
             _airplaneModelView = airplaneModelView;
             _componentType = componentType;
+            transform.position = spawnPosition;
         }
 
         private void StartFixComponentProcess()
@@ -59,7 +62,8 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             AirplaneSurface surface = _airplaneModelView
                 .GetSurface(ComponentsDependencyResolver.GetAirplaneSurfaceFor(_componentType));
             
-            _handShaker.StartFollowing(surface);
+            
+            _handShaker.StartFollowing(surface, _surfaceAttachPointIndex);
             while (true)
             {
                 if (Input.GetMouseButtonDown(0) && IsNearToAttachPoint(surface))
@@ -76,6 +80,13 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             return Vector3.Distance(airplaneSurface.Center, transform.position) <= _distanceToAbleFix;
         }
 
+    }
+
+    public enum DirectionType
+    {
+        Forward,
+        Right,
+        Up
     }
 
 

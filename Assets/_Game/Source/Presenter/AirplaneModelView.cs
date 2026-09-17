@@ -90,9 +90,9 @@ namespace _Game.Source.Presenter
             weightTr.localScale = new Vector3(weightTr.localScale.x, weight.WeightAmount, weight.WeightAmount);
         }
 
-        public void Rotate(RotationType rotation)
+        public void Rotate(RotationType rotation, Action callback)
         {
-            _airplaneRotator.Rotate(rotation);
+            _airplaneRotator.Rotate(rotation, callback);
         }
     }
 }
