@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,66 +7,55 @@ namespace _Game.Source.Application
     public class AirplaneSurface: MonoBehaviour
     {
         [SerializeField] private List<Transform> _attachPoints;
-        private Collider _collider;
-        private Camera _camera;
-
+        private BoxCollider _collider;
         public Vector3 Center => _collider.bounds.center;
-        public Transform Transform => _collider.transform;
 
         private void Awake()
         {
-            _collider = GetComponent<Collider>();
-            _camera = Camera.main;
+            _collider = GetComponent<BoxCollider>();
         }
+        public Transform GetAttachPoint(int index) => _attachPoints[index];
 
-        public bool TryProject(Ray ray, out RaycastHit hit)
+        public Vector3 ProjectRay(Ray ray)
         {
-            hit = default;
-            float maxDistance = _camera.farClipPlane;
-            return _collider.Raycast(ray, out hit, maxDistance);
+            Vector3 size = _collider.size;
+            Vector3 center = _collider.center;
+            var lowCorner = _collider.transform.TransformPoint(center - new Vector3(0, size.y) / 2);
+            var upCorner = _collider.transform.TransformPoint(center + new Vector3(0, size.y) / 2);      
+            float heightHalf = (upCorner - lowCorner).magnitude / 2;
+            Plane plane = new Plane(_collider.transform.up, _collider.transform.position + _collider.transform.up * heightHalf);
+            plane.Raycast(ray, out float t);
+            var resultPoint = _collider.ClosestPoint(ray.origin +  ray.direction * t);
+            return resultPoint;
         }
 
-        public void Project(Ray ray, out Vector3 point, out Vector3 normal)
+        public Quaternion AroundAxis(RotationType rotationType, float yaw)
         {
-            if (TryProject(ray, out RaycastHit hit))
+            Quaternion res;
+            switch (rotationType)
             {
-                point = hit.point;
-                normal = hit.normal;
-                return;
+                case RotationType.Forward:
+                    res = GetRotation(transform.forward, transform.up, yaw);
+                    break;
+                case RotationType.Up:
+                    res = GetRotation(transform.up, transform.forward, yaw);
+                    break;
+                default:
+                    throw new ArgumentException("Failed handle rotation with type " + rotationType);
             }
-
-            Vector3 center = _collider.bounds.center;
-            float distanceAlongRay = Vector3.Dot(center - ray.origin, ray.direction);
-            Vector3 cursorPoint = ray.GetPoint(Mathf.Max(0f, distanceAlongRay));
-
-            point = _collider.ClosestPoint(cursorPoint);
-
-            Vector3 normalDirection = cursorPoint - point;
-            if (normalDirection.sqrMagnitude > Mathf.Epsilon)
-            {
-                normal = normalDirection.normalized;
-                return;
-            }
-
-            normalDirection = point - center;
-            normal = normalDirection.sqrMagnitude > Mathf.Epsilon
-                ? normalDirection.normalized
-                : Transform.forward;
+            return res;
         }
 
-        public Transform GetAttachPoint(int attachPointIndex)
+        private Quaternion GetRotation(Vector3 a, Vector3 b, float yaw)
         {
-            if (_attachPoints == null ||
-                attachPointIndex < 0 ||
-                attachPointIndex >= _attachPoints.Count)
-            {
-                Debug.LogError(
-                    $"{nameof(AirplaneSurface)} on {name}: attach point index {attachPointIndex} is out of range.",
-                    this);
-                return null;
-            }
-
-            return _attachPoints[attachPointIndex];
+            Quaternion rotation = Quaternion.LookRotation(a, b);
+            return rotation * Quaternion.AngleAxis(yaw, a);
         }
+
+        public Vector3 GetTangent() => _collider.transform.forward;
+
+        public Vector3 Bitangent() => _collider.transform.right;
+
+        public Vector3 Normal() => _collider.transform.up;
     }
 }

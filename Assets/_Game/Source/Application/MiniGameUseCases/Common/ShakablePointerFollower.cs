@@ -10,7 +10,6 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         [SerializeField] private float _radius = 20f;
         [SerializeField] private float _speed = 1f;
         [SerializeField] private float _smooth = 0.5f;
-        [SerializeField] private float _surfaceOffset = 0.02f;
 
         private Coroutine _shakingCoroutine;
         private Vector3 _p0;
@@ -26,40 +25,34 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             _projectionCamera = Camera.main;
         }
 
-        public void StartFollowing(AirplaneSurface surface,
-            int surfaceAttachPointIndex,
-            DirectionType direction,
-            bool invertedDirection, Vector3 localRotation, float yawOffsetDegrees = 0f)
+        public void WarmUp(AirplaneSurface surface, RotationType relativeToSurface, float yaw)
         {
-            StopShaking();
-            _shakingCoroutine = StartCoroutine(
-                Follow(surface, surfaceAttachPointIndex, direction, invertedDirection, yawOffsetDegrees, localRotation));
+            transform.rotation = surface.AroundAxis(relativeToSurface, yaw);
         }
 
-        public void StopShaking()
+        public void StartFollowing(AirplaneSurface surface, RotationType relativeToSurface, float yaw, int attachPointIndex)
+        {
+            StopFollowing();
+            _shakingCoroutine = StartCoroutine(
+                Follow(surface, relativeToSurface, yaw, attachPointIndex));
+        }
+
+        public void StopFollowing()
         {
             if (_shakingCoroutine != null)
                 StopCoroutine(_shakingCoroutine);
         }
-        
-        private IEnumerator Follow(AirplaneSurface surface,
-            int attachPointIndex,
-            DirectionType direction,
-            bool invertedDirection,
-            float yawOffsetDegrees,
-            Vector3 localRotation)
+
+        private IEnumerator Follow(AirplaneSurface surface, RotationType relativeToSurface, float yaw, int attachPointIndex)
         {
             float t = 0f;
             GenerateBezier(out _p0, out _p1, out _p2, out _p3);
             _target = surface.Center;
-            Transform attachPoint = surface.GetAttachPoint(attachPointIndex);
-            if (attachPoint == null)
-                yield break;
-            
+
             while (true)
             {
                 Ray pointerRay = _projectionCamera.ScreenPointToRay(Input.mousePosition);
-                surface.Project(pointerRay, out _target, out _);
+                _target = surface.ProjectRay(pointerRay);
 
                 t += Time.deltaTime * _speed;
 
@@ -74,26 +67,16 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                 }
                 Vector3 offset = CubicBezier(_p0, _p1, _p2, _p3, t);
 
-                Vector3 tangent = attachPoint.forward;
-                Vector3 bitangent = attachPoint.right;
-                Vector3 planeNormal = attachPoint.up;
-                Vector3 planeOrigin = attachPoint.position + planeNormal * _surfaceOffset;
+                Vector3 tangent = surface.GetTangent();
+                Vector3 bitangent = surface.Bitangent();
                 
                 Vector3 shakeOffset = tangent * offset.x + bitangent * offset.y;
-                Vector3 candidatePosition = _target + shakeOffset;
-                
-                _desiredPosition = planeOrigin +
-                                   Vector3.ProjectOnPlane(
-                                       candidatePosition - planeOrigin,
-                                       planeNormal);
+                _desiredPosition = _target + shakeOffset;
 
                 transform.position += (_desiredPosition - transform.position)
                                       * (1f - Mathf.Exp(-_smooth * Time.deltaTime));
-                transform.rotation = AttachOrientation.GetWorldRotation(
-                    attachPoint,
-                    direction,
-                    invertedDirection,
-                    yawOffsetDegrees) * Quaternion.Euler(localRotation);
+                
+                transform.rotation = surface.AroundAxis(relativeToSurface, yaw);
                     
                 yield return null;
             }

@@ -22,13 +22,13 @@ namespace _Game.Source.Presenter
             Quaternion target = Quaternion.identity;
             switch (rotation)
             {
-                case RotationType.Top:
+                case RotationType.Up:
                     target = Quaternion.Euler(_top);
                     break;
-                case RotationType.Side:
+                case RotationType.Right:
                     target = Quaternion.Euler(_side);
                     break;
-                case RotationType.Front:
+                case RotationType.Forward:
                     target = Quaternion.Euler(_front);
                     break;
             }

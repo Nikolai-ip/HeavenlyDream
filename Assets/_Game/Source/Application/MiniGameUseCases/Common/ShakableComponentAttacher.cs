@@ -13,16 +13,16 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         [SerializeField] private PointerInteractionListenerBase _interactionListener;
         [SerializeField] private ShakablePointerFollower _handShaker;
         [SerializeField] private float _distanceToAbleFix;
-        [SerializeField] private bool _invertedDirection;
-        [SerializeField] private DirectionType _relativeToSurface;
         [SerializeField] private int _surfaceAttachPointIndex;
-        [SerializeField] private float _yawOffsetDegrees;
-        [SerializeField] private Vector3 _localRotation;
+        [SerializeField] private float _yaw;
+        [SerializeField] private RotationType _relativeToSurface;
 
         private AirplaneModelView _airplaneModelView;
 
         private bool _fixProcess;
         private AirplaneComponentType _componentType;
+        private Transform _attachPoint;
+        private AirplaneSurface _surface;
         public override event Action<Vector3, Quaternion> OnComponentAttached; 
 
         private void OnEnable()
@@ -39,7 +39,10 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             _airplaneModelView = airplaneModelView;
             _componentType = componentType;
             transform.position = spawnPosition;
-            ApplyAttachOrientation(GetTargetSurface());
+            _surface =  _airplaneModelView.GetSurface(
+                ComponentsDependencyResolver.GetAirplaneSurfaceFor(_componentType));
+            _attachPoint = _surface.GetAttachPoint(_surfaceAttachPointIndex);
+            _handShaker.WarmUp(_surface, _relativeToSurface, _yaw);
         }
 
         private void StartFixComponentProcess()
@@ -60,26 +63,21 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             try
             {
                 yield return null; //Wait for input handled
-
-                AirplaneSurface surface = GetTargetSurface();
-                Transform attachPoint = surface.GetAttachPoint(_surfaceAttachPointIndex);
-                if (attachPoint == null)
-                    yield break;
                 
                 _handShaker.StartFollowing(
-                    surface,
-                    _surfaceAttachPointIndex,
+                    _surface,
                     _relativeToSurface,
-                    _invertedDirection,
-                    _localRotation,
-                    _yawOffsetDegrees);
+                    _yaw, 
+                    _surfaceAttachPointIndex);
+                
                 while (true)
                 {
-                    if (Input.GetMouseButtonDown(0) && IsNearToAttachPoint(attachPoint))
+                    if (Input.GetMouseButtonDown(0) && IsNearToAttachPoint())
                         break;   
+                    
                     yield return null;
                 }
-                _handShaker.StopShaking();
+                _handShaker.StopFollowing();
                 Vector3 resultLocalPos = _airplaneModelView.transform.InverseTransformPoint(transform.position);
                 Quaternion resultLocalRot =
                     Quaternion.Inverse(_airplaneModelView.transform.rotation) * transform.rotation;
@@ -90,29 +88,11 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                 _fixProcess = false;
             }
         }
+        
 
-        private AirplaneSurface GetTargetSurface()
+        private bool IsNearToAttachPoint()
         {
-            return _airplaneModelView.GetSurface(
-                ComponentsDependencyResolver.GetAirplaneSurfaceFor(_componentType));
-        }
-
-        private void ApplyAttachOrientation(AirplaneSurface surface)
-        {
-            Transform attachPoint = surface.GetAttachPoint(_surfaceAttachPointIndex);
-            if (attachPoint == null)
-                return;
-
-            transform.rotation = AttachOrientation.GetWorldRotation(
-                attachPoint,
-                _relativeToSurface,
-                _invertedDirection,
-                yawDegrees: _yawOffsetDegrees) * Quaternion.Euler(_localRotation);
-        }
-
-        private bool IsNearToAttachPoint(Transform attachPoint)
-        {
-            return Vector3.Distance(attachPoint.position, transform.position) <= _distanceToAbleFix;
+            return Vector3.Distance(_attachPoint.position, transform.position) <= _distanceToAbleFix;
         }
     }
 }

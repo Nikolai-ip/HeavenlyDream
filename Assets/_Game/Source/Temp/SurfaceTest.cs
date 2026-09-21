@@ -39,7 +39,6 @@ namespace _Game.Source.Temp
             var lowCorner = _surface.transform.TransformPoint(center - new Vector3(0, size.y) / 2);
             var upCorner = _surface.transform.TransformPoint(center + new Vector3(0, size.y) / 2);      
             float h = (upCorner - lowCorner).magnitude;
-            Debug.Log(h);
             
             Plane plane = new Plane(_surface.transform.up, _surface.transform.position + _surface.transform.up * h);
             plane.Raycast(ray, out float t);
