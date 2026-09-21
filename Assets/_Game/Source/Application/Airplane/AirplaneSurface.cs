@@ -55,6 +55,16 @@ namespace _Game.Source.Application
 
         public Transform GetAttachPoint(int attachPointIndex)
         {
+            if (_attachPoints == null ||
+                attachPointIndex < 0 ||
+                attachPointIndex >= _attachPoints.Count)
+            {
+                Debug.LogError(
+                    $"{nameof(AirplaneSurface)} on {name}: attach point index {attachPointIndex} is out of range.",
+                    this);
+                return null;
+            }
+
             return _attachPoints[attachPointIndex];
         }
     }

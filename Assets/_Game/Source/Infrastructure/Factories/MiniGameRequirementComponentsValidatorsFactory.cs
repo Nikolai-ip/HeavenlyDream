@@ -42,7 +42,7 @@ namespace _Game.Source.Infrastructure.Factories
                 { MiniGameType.AttachFin, new(new List<PredicateWithOperator>()
                 {
                     new (new PlaneContainComponentPredicate(_planeComponentContainer, AirplaneComponentType.Fuselage), BoolOperatorType.And),
-                    new (new PlaneContainComponentPredicate(_planeComponentContainer, AirplaneComponentType.Stabilizer), BoolOperatorType.And),
+              //          new (new PlaneContainComponentPredicate(_planeComponentContainer, AirplaneComponentType.Stabilizer), BoolOperatorType.And),
                 })},
                 { MiniGameType.SetBalancing, new(new List<PredicateWithOperator>()
                 {

@@ -581,10 +581,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _useTestValues: 1
   CommonError: 0
-  FuselageError: 1
-  WingError: 1
-  StabilizerError: 1
-  AirplaneFinError: 1
+  FuselageError: 0
+  WingError: 0.1
+  StabilizerError: 0.05
+  AirplaneFinError: 0.05
   BalancingWeightError: 0
 --- !u!1 &546640287
 GameObject:

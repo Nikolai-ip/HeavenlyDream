@@ -9,6 +9,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 332033128378606213, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 332033128378606213, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 332033128378606213, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
@@ -38,6 +46,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1725245117769118388, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4672103088298977732, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
+      propertyPath: _localRotation.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4672103088298977732, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
+      propertyPath: _localRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5541943030412612238, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
@@ -82,6 +98,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5608706884275542826, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948555803499437135, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
+      propertyPath: _localRotation.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948555803499437135, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
+      propertyPath: _localRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948555803499437135, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
+      propertyPath: _yawOffsetDegrees
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948555803499437135, guid: a60032dfcc6a34913a37e4366535881e, type: 3}
+      propertyPath: _invertedDirection
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6948555803499437135, guid: a60032dfcc6a34913a37e4366535881e, type: 3}

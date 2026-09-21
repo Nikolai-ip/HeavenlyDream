@@ -26,10 +26,14 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             _projectionCamera = Camera.main;
         }
 
-        public void StartFollowing(AirplaneSurface surface, int surfaceAttachPointIndex)
+        public void StartFollowing(AirplaneSurface surface,
+            int surfaceAttachPointIndex,
+            DirectionType direction,
+            bool invertedDirection, Vector3 localRotation, float yawOffsetDegrees = 0f)
         {
             StopShaking();
-            _shakingCoroutine = StartCoroutine(Follow(surface, surfaceAttachPointIndex));
+            _shakingCoroutine = StartCoroutine(
+                Follow(surface, surfaceAttachPointIndex, direction, invertedDirection, yawOffsetDegrees, localRotation));
         }
 
         public void StopShaking()
@@ -38,18 +42,24 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                 StopCoroutine(_shakingCoroutine);
         }
         
-        private IEnumerator Follow(AirplaneSurface surface, int attachPointIndex)
+        private IEnumerator Follow(AirplaneSurface surface,
+            int attachPointIndex,
+            DirectionType direction,
+            bool invertedDirection,
+            float yawOffsetDegrees,
+            Vector3 localRotation)
         {
             float t = 0f;
             GenerateBezier(out _p0, out _p1, out _p2, out _p3);
             _target = surface.Center;
             Transform attachPoint = surface.GetAttachPoint(attachPointIndex);
+            if (attachPoint == null)
+                yield break;
             
             while (true)
             {
                 Ray pointerRay = _projectionCamera.ScreenPointToRay(Input.mousePosition);
                 surface.Project(pointerRay, out _target, out _);
-
 
                 t += Time.deltaTime * _speed;
 
@@ -67,17 +77,23 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                 Vector3 tangent = attachPoint.forward;
                 Vector3 bitangent = attachPoint.right;
                 Vector3 planeNormal = attachPoint.up;
+                Vector3 planeOrigin = attachPoint.position + planeNormal * _surfaceOffset;
                 
                 Vector3 shakeOffset = tangent * offset.x + bitangent * offset.y;
                 Vector3 candidatePosition = _target + shakeOffset;
                 
-                _desiredPosition =  attachPoint.position +
-                                    Vector3.ProjectOnPlane(
-                                        candidatePosition - attachPoint.position,
-                                        planeNormal);
+                _desiredPosition = planeOrigin +
+                                   Vector3.ProjectOnPlane(
+                                       candidatePosition - planeOrigin,
+                                       planeNormal);
 
                 transform.position += (_desiredPosition - transform.position)
                                       * (1f - Mathf.Exp(-_smooth * Time.deltaTime));
+                transform.rotation = AttachOrientation.GetWorldRotation(
+                    attachPoint,
+                    direction,
+                    invertedDirection,
+                    yawOffsetDegrees) * Quaternion.Euler(localRotation);
                     
                 yield return null;
             }

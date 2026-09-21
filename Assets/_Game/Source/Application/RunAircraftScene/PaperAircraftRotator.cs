@@ -31,11 +31,11 @@ namespace _Game.Source.Application
         private void StartRotateProcess()
         {
             _cts = new();
-            RotatePaperPlane(_cts.Token).Forget();
+            RotateAcrossVelocity(_cts.Token).Forget();
             RotateAroundXProcess(_cts.Token).Forget();
         }
 
-        private async UniTask RotatePaperPlane(CancellationToken cts)
+        private async UniTask RotateAcrossVelocity(CancellationToken cts)
         {
             while (!cts.IsCancellationRequested)
             {
