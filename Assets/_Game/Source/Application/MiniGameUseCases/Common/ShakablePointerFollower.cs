@@ -1,4 +1,5 @@
 using System.Collections;
+using _Game.Source.Utilities.Extensions;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,6 +11,7 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
         [SerializeField] private float _radius = 20f;
         [SerializeField] private float _speed = 1f;
         [SerializeField] private float _smooth = 0.5f;
+        [SerializeField] private float _randomSpread = 0.3f;
 
         private Coroutine _shakingCoroutine;
         private Vector3 _p0;
@@ -48,7 +50,10 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
             float t = 0f;
             GenerateBezier(out _p0, out _p1, out _p2, out _p3);
             _target = surface.Center;
-
+            System.Random rnd = new System.Random();
+            Vector3 tangent = surface.GetTangent();
+            Vector3 bitangent = surface.Bitangent();
+            
             while (true)
             {
                 Ray pointerRay = _projectionCamera.ScreenPointToRay(Input.mousePosition);
@@ -65,17 +70,14 @@ namespace _Game.Source.Application.MiniGameUseCases.Common
                         out _p2,
                         out _p3);
                 }
-                Vector3 offset = CubicBezier(_p0, _p1, _p2, _p3, t);
-
-                Vector3 tangent = surface.GetTangent();
-                Vector3 bitangent = surface.Bitangent();
                 
-                Vector3 shakeOffset = tangent * offset.x + bitangent * offset.y;
+                float rNormal = (rnd.RandomNormal(0, _randomSpread) + 1) / 2;
+                Vector3 offset = CubicBezier(_p0, _p1, _p2, _p3, t) * rNormal;
+                Vector3 shakeOffset = tangent * offset.y + bitangent * offset.x;
                 _desiredPosition = _target + shakeOffset;
-
+                
                 transform.position += (_desiredPosition - transform.position)
                                       * (1f - Mathf.Exp(-_smooth * Time.deltaTime));
-                
                 transform.rotation = surface.AroundAxis(relativeToSurface, yaw);
                     
                 yield return null;

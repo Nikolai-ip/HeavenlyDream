@@ -1,3 +1,122 @@
 ---
-alwaysApply: true
----
+
+description: C# coding style and readability conventions for production code.
+globs: "**/*.cs"
+alwaysApply: false
+------------------
+
+# C# Style
+
+Write modern, idiomatic, readable C# suitable for production software.
+
+## Naming
+
+Follow standard C# naming conventions:
+
+* Types, methods, properties, events, and constants: `PascalCase`
+* Private fields and local variables: `camelCase`
+* Private fields may use `_camelCase` when this matches the established project convention.
+* Interfaces use the `I` prefix.
+* Use names that communicate intent rather than implementation details.
+
+Do not use abbreviations unless they are established and unambiguous within the codebase.
+
+Prefer precise names over generic names such as `data`, `manager`, `handler`, `thing`, or `helper` when a more meaningful name is available.
+
+## Methods
+
+Keep methods focused and readable.
+
+Do not split a method into multiple methods merely to make it shorter.
+
+Extract a method when the extracted operation:
+
+* has a meaningful responsibility;
+* is reused;
+* significantly improves readability;
+* isolates complex logic;
+* deserves independent testing.
+
+Avoid deeply nested control flow when a simpler structure is available.
+
+Use early returns when they improve readability.
+
+## Types and abstractions
+
+Prefer concrete types when abstraction provides no practical benefit.
+
+Do not introduce interfaces, base classes, generic abstractions, or wrappers without a concrete reason.
+
+Avoid classes with excessive numbers of tiny methods whose only purpose is delegating to another object.
+
+Do not use design patterns merely because they have a name.
+
+## Language features
+
+Use modern C# language features when they make the code clearer or safer.
+
+Do not use newer syntax merely to demonstrate language features.
+
+Prefer the simplest syntax that clearly expresses the intent.
+
+Use `var` when the assigned type is obvious from the right-hand side. Use an explicit type when `var` would make the code less clear.
+
+Use expression-bodied members only when the expression remains immediately readable.
+
+## Expressions and calculations
+
+Keep mathematical expressions readable.
+
+Avoid unnecessary temporary variables, but introduce one when it gives a meaningful name to an intermediate concept.
+
+When a calculation is independent of a per-element or per-vector operation, compute it once rather than repeatedly.
+
+Prefer:
+
+```csharp
+var movement = direction * (speed * deltaTime);
+```
+
+over repeatedly performing the same scalar calculation as part of a larger vector operation when the distinction improves clarity or avoids redundant work.
+
+Do not perform micro-optimizations that make ordinary code harder to understand unless there is a meaningful performance reason.
+
+## Nullability and validation
+
+Do not add null checks solely as a defensive habit.
+
+If a dependency is required, treat that requirement as an invariant and establish it through the appropriate construction, composition, or lifecycle mechanism.
+
+Validate input when invalid input is genuinely possible and the validation has a defined behavior.
+
+Avoid defensive checks that merely obscure the intended execution path.
+
+## Comments and documentation
+
+Prefer self-explanatory code over comments.
+
+Do not add comments that merely restate what the code does.
+
+Do not add comments inside ordinary method bodies unless the code contains genuinely non-obvious reasoning, constraints, or intentional behavior.
+
+Comments should primarily explain:
+
+* why a non-obvious decision exists;
+* important constraints;
+* architectural intent;
+* non-obvious external behavior;
+* intentional deviations from the obvious implementation.
+
+Document public or abstract APIs when their purpose, contract, or constraints are not sufficiently clear from the API itself.
+
+Never use comments as a substitute for meaningful naming or clear structure.
+
+## Formatting
+
+Follow the formatting conventions already established by the project.
+
+Do not reformat unrelated code.
+
+Keep changes localized.
+
+Do not introduce a new formatting style into an existing codebase merely because it differs from the existing convention.

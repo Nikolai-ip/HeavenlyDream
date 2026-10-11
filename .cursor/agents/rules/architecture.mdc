@@ -1,3 +1,138 @@
 ---
+
+description: Architectural decision-making rules for maintaining simple, maintainable, testable code without overengineering.
 alwaysApply: true
----
+-----------------
+
+# Architecture
+
+Design architecture around actual responsibilities, dependencies, lifecycle, and project requirements.
+
+Do not apply architectural principles mechanically.
+
+## Existing architecture
+
+Before introducing a new architectural pattern:
+
+1. Inspect how the existing system solves similar problems.
+2. Determine why the existing approach is used.
+3. Check whether it remains appropriate for the current requirement.
+4. Reuse it when it is sound.
+5. Recommend a change when it creates a meaningful problem.
+
+Existing code is evidence of the intended architecture, not proof that the architecture is correct.
+
+## Dependency direction
+
+Keep dependencies intentional.
+
+When introducing a dependency, consider:
+
+* who owns the dependency;
+* who should know about whom;
+* lifecycle requirements;
+* coupling;
+* testability;
+* whether the dependency should be injected, composed, referenced, or resolved.
+
+Do not introduce service locators or hidden global dependencies merely to avoid explicit dependency management.
+
+## Dependency Injection
+
+Use Dependency Injection when it provides a meaningful benefit such as:
+
+* explicit dependency ownership;
+* lifecycle control;
+* replacing implementations;
+* testability;
+* decoupling application logic from infrastructure.
+
+Do not use DI mechanically for every object.
+
+Do not replace a simple, local dependency with an abstraction and DI container configuration when direct composition is clearer.
+
+When a Unity `MonoBehaviour` receives a dependency through the Inspector, evaluate whether that dependency genuinely needs to be a Unity object. If it does not depend on Unity lifecycle, serialization, scene ownership, or other Unity-specific behavior, consider whether a plain C# class with explicit composition or DI would provide a better design.
+
+If the current approach differs from the project's dominant architecture, evaluate whether the deviation is justified. Do not silently change it.
+
+## SOLID and Clean Architecture
+
+Apply SOLID and Clean Architecture principles when they solve a real problem.
+
+Useful reasons include:
+
+* separating unstable responsibilities;
+* controlling dependency direction;
+* isolating domain logic;
+* making behavior independently testable;
+* reducing meaningful coupling;
+* supporting multiple implementations;
+* preventing lifecycle or infrastructure concerns from leaking into core logic.
+
+Do not create layers, interfaces, factories, services, or abstractions solely to satisfy a principle.
+
+Prefer a simpler architecture when the additional abstraction provides no practical benefit.
+
+## Responsibility
+
+Keep responsibilities cohesive.
+
+A class may contain multiple related operations when they form one coherent responsibility.
+
+Do not split a cohesive class into numerous tiny classes merely because its methods can theoretically be grouped further.
+
+Avoid classes whose primary purpose is forwarding calls to another class without adding meaningful behavior.
+
+## Unity boundaries
+
+Keep Unity-specific concerns at appropriate boundaries.
+
+When logic does not require `UnityEngine`, prefer keeping it independent of Unity.
+
+Do not force Unity-free architecture where doing so significantly harms simplicity or conflicts with legitimate Unity lifecycle requirements.
+
+Treat `MonoBehaviour`, `ScriptableObject`, scene references, prefabs, serialization, and Unity lifecycle methods as architectural boundaries rather than automatically making every system depend on them.
+
+## Composition and lifecycle
+
+Make ownership and lifecycle explicit.
+
+Before introducing a new service or manager, determine:
+
+* who creates it;
+* who owns it;
+* how long it lives;
+* who disposes or cancels it;
+* who provides its dependencies.
+
+Avoid hidden lifecycle management and unnecessary global state.
+
+## Architectural changes
+
+Do not perform architectural refactoring unless explicitly requested or required to safely implement the requested feature.
+
+If a requested implementation creates a significant architectural problem:
+
+1. Stop before modifying the code.
+2. Explain the problem.
+3. Show the relevant trade-off.
+4. Propose a concrete alternative.
+5. Wait for the user's decision.
+
+Minor improvements may be mentioned without blocking implementation.
+
+## Complexity budget
+
+Every abstraction introduces cognitive and maintenance cost.
+
+Before adding an abstraction, be able to identify the concrete problem it solves.
+
+Prefer:
+
+> one understandable class
+
+over:
+
+> several abstractions whose only purpose is architectural separation.
+
+Optimize for the smallest architecture that remains robust for the expected evolution of the feature.
