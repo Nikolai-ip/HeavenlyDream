@@ -24,6 +24,8 @@ public class PaperAircraftMoveController : MonoBehaviour
     [SerializeField] private Vector3 _direction;
     [SerializeField] private Trajectory _trajectory;
     [SerializeField] private float _reducePowerAfterFinishDuration;
+    [SerializeField] private float _fallMaxYVelocity;
+    [SerializeField] private Ease _reducePowerFunc;
 
     private Vector3 _lerpDirection;
     private Vector3 _currentTargetPoint;
@@ -52,6 +54,8 @@ public class PaperAircraftMoveController : MonoBehaviour
             _cts = new CancellationTokenSource();
             await FlyingProcess(_cts.Token);
             OnTrajectoryOver();
+            OnTrajectoryFinished?.Invoke();
+
             StartCoroutine(ReducePower());
         }
         catch (OperationCanceledException) { }
@@ -60,20 +64,28 @@ public class PaperAircraftMoveController : MonoBehaviour
 
     private IEnumerator ReducePower()
     {
-        float currentVelocityX = _rb.linearVelocity.x;
-        
-        var tween = DOTween.To(() => currentVelocityX, (v) =>
+        float startVelocityX = _rb.linearVelocity.x;
+        float startVelocityY = _rb.linearVelocity.y;
+        float elapsed = 0f;
+        var tick = new WaitForFixedUpdate(); 
+        while (elapsed < _reducePowerAfterFinishDuration)
         {
-            currentVelocityX = v;
-            _rb.linearVelocity = new Vector3(currentVelocityX, _rb.linearVelocity.y, 0f);
-        },0, _reducePowerAfterFinishDuration);
-        yield return tween.WaitForCompletion();
+            elapsed += Time.deltaTime;
+
+            float t = Mathf.Clamp01(elapsed / _reducePowerAfterFinishDuration);
+            float easedT = DOVirtual.EasedValue(0,1,t,_reducePowerFunc);
+            float x = Mathf.Lerp(startVelocityX, 0f, easedT);
+            float y = Mathf.Lerp(startVelocityY, -_fallMaxYVelocity, easedT);;
+
+            _rb.linearVelocity = new Vector3(x, y, 0f);
+
+            yield return tick;
+        } 
     }
 
     private void OnTrajectoryOver()
     {
-        _rb.useGravity = true;
-        OnTrajectoryFinished?.Invoke();
+        //_rb.useGravity = true;
     }
 
     private async UniTask FlyingProcess(CancellationToken cts)
@@ -83,14 +95,13 @@ public class PaperAircraftMoveController : MonoBehaviour
         while (!cts.IsCancellationRequested)
         {
             elapsedTime += Time.fixedDeltaTime;
-            if (IsReachTargetPoint())
+            if (IsReachTargetPoint() && !TrySetNewDirection())
             {
-                var isNextPointExist = TrySetNewDirection();
-                if (!isNextPointExist)
-                    return;
+                return;
             }
 
-            _lerpDirection = Vector3.Lerp(_direction, _direction, _changeForceVectorSpeed);
+            _lerpDirection = Vector3.Lerp(_lerpDirection, _direction, _changeForceVectorSpeed);
+            Debug.Log(_direction);
             Move(_lerpDirection,  _flightPower, _forceMode);
             if (elapsedTime >= _changePowerInterval)
             {
@@ -122,6 +133,7 @@ public class PaperAircraftMoveController : MonoBehaviour
         float t = _rnd.RandomNormal(0.5f, _flightPowerStdDev);
         _flightPower = Mathf.Lerp(_minFlightPower, _maxFlightPower, t);
     }
+    
 
     private void Move(Vector3 dir, float flightPower, ForceMode forceMode)
     {

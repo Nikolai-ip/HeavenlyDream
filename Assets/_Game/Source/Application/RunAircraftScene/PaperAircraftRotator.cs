@@ -25,7 +25,6 @@ namespace _Game.Source.Application
         private void OnEnable()
         {
             _moveController.OnLaunch += StartRotateProcess;
-            _moveController.OnTrajectoryFinished += StopRotateProcess;
         }
 
         private void StartRotateProcess()
@@ -40,9 +39,8 @@ namespace _Game.Source.Application
             while (!cts.IsCancellationRequested)
             {
                 float angle = Mathf.Atan2(_rb.linearVelocity.y, _rb.linearVelocity.x) * Mathf.Rad2Deg;
-                Quaternion rotByVel = Quaternion.Euler(0, 0, angle + 180);
-                Quaternion rotByX = Quaternion.Euler(_currentXAngle, 0, 0);
-
+                Quaternion rotByVel = Quaternion.Euler(angle + 180, -90, 0);
+                Quaternion rotByX = Quaternion.Euler(0, 0, _currentXAngle);
                 transform.rotation = rotByVel * rotByX;
                 await UniTask.WaitForFixedUpdate(cts);
             }
@@ -84,7 +82,6 @@ namespace _Game.Source.Application
         private void OnDisable()
         {
             _moveController.OnLaunch -= StartRotateProcess;
-            _moveController.OnTrajectoryFinished -= StopRotateProcess;
             StopRotateProcess();
         }
         

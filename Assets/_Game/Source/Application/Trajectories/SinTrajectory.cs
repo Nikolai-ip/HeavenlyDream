@@ -10,12 +10,14 @@ namespace _Game.Source
     {
         [SerializeField] private float _amplitude;
         [SerializeField] private float _frequency;
+        [SerializeField] private bool _vertical = true;
         public override event Action<List<Vector3>> OnTrajectoryCreated;
         public override void CreateTrajectoryPoints(Vector3 startPosition)
         {
             TrajectoryPoints.Clear();
             Vector2 dir = Direction.normalized;
-            Vector2 normal = new Vector2(-dir.y, dir.x);
+            Vector3 up = new Vector3(-dir.y, dir.x);
+            Vector3 normal = _vertical ? up : Vector3.Cross(dir, up);
 
             for (int i = 0; i < PointsCount; i++)
             {
@@ -25,7 +27,7 @@ namespace _Game.Source
                 Vector3 basePoint = startPosition + (Vector3)(dir * distance);
                 float offset = Mathf.Sin(t * _frequency * Mathf.PI * 2f) * _amplitude;
 
-                Vector3 point = basePoint + (Vector3)(normal * offset);
+                Vector3 point = basePoint + (normal * offset);
                 TrajectoryPoints.Add(point);
             }
 

@@ -416,11 +416,11 @@ MonoBehaviour:
     - segment: {fileID: 404526289}
       axis: 0
     bendPoints:
-    - {x: 0.000012007851, y: 4.137024, z: 0.61620796}
-    - {x: 0.0000033775962, y: 9.214363, z: 0.7760565}
+    - {x: 0.000038904443, y: -0.767082, z: 0.64886713}
+    - {x: 0.0000099589415, y: 3.1515205, z: 0.87604856}
     solvedBendPoints:
-    - {x: 0.000012007851, y: 4.137024, z: 0.61620796}
-    - {x: 0.0000033775962, y: 9.214363, z: 0.7760565}
+    - {x: 0.000038904443, y: -0.767082, z: 0.64886713}
+    - {x: 0.0000099589415, y: 3.1515205, z: 0.87604856}
     solvedLengths:
     - 0.65
     - 0.3
@@ -646,8 +646,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 404526285}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.33191475, y: 0.63549876, z: 0.3498015, w: 0.60300314}
-  m_LocalPosition: {x: 2.2260523, y: -0.082415596, z: -0.06276266}
+  m_LocalRotation: {x: -0.2396584, y: 0.68001324, z: 0.25256783, w: 0.645256}
+  m_LocalPosition: {x: 2.2920144, y: -0.35637718, z: -0.06623243}
   m_LocalScale: {x: 0.3, y: 0.05, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1271,8 +1271,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999689510}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.111476354, y: 0.71584046, z: 0.11748633, w: 0.6792219}
-  m_LocalPosition: {x: 1.838088, y: -0.31211787, z: -0.042383164}
+  m_LocalRotation: {x: 0.02020048, y: 0.7251094, z: -0.021289803, w: 0.6880081}
+  m_LocalPosition: {x: 1.8545548, y: -0.4350681, z: -0.04325232}
   m_LocalScale: {x: 0.3, y: 0.05, z: 0.65}
   m_ConstrainProportionsScale: 0
   m_Children: []
