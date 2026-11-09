@@ -16,6 +16,9 @@ namespace _Game.Source.Infrastructure.Installers
         [SerializeField] private Trajectory _stabilizerDependedTrajectory;
         [SerializeField] private Trajectory _finDependedTrajectory;
         [SerializeField] private Trajectory _balancingDependedTrajectory;
+        
+        [SerializeField] private Trajectory _finishTrajectory;
+        
 
         public override void InstallBindings(DiContainer Container)
         {   
@@ -29,6 +32,7 @@ namespace _Game.Source.Infrastructure.Installers
             trajectoryWeights.Add(new (_balancingDependedTrajectory, localErrors[AirplaneComponentType.Balancing]));
             
             _summaryTrajectory.Construct(trajectoryWeights);
+            _finishTrajectory.CreateTrajectoryPoints(_summaryTrajectory.TrajectoryPoints[^1]);
         }
     }
     
